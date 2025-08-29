@@ -16,7 +16,6 @@ namespace FrontendProyecto.Pages.Ongs
         [Phone, StringLength(30)]
         public string? Telefono { get; set; }
 
-        [EmailAddress, StringLength(150)]
-        public string? Correo { get; set; }
+        
     }
 }

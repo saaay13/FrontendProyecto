@@ -1,8 +1,7 @@
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -10,34 +9,21 @@ using System.Text.Json;
 
 namespace FrontendProyecto.Pages.Login
 {
-    [AllowAnonymous]
     public class IndexModel : PageModel
     {
-        private readonly HttpClient _httpClient;
+        private readonly HttpClient _http;
 
-        [BindProperty]
-        public string CorreoUsuario { get; set; } = string.Empty;
+        public IndexModel(IHttpClientFactory httpFactory)
+        {
+            _http = httpFactory.CreateClient("API");
+        }
 
-        [BindProperty]
-        public string Password { get; set; } = string.Empty;
-
+        [BindProperty] public string CorreoUsuario { get; set; } = string.Empty;
+        [BindProperty] public string Password { get; set; } = string.Empty;
+        [BindProperty(SupportsGet = true)] public string? ReturnUrl { get; set; }
         public string MensajeError { get; set; } = string.Empty;
 
-        public IndexModel(IHttpClientFactory httpClientFactory)
-        {
-            _httpClient = httpClientFactory.CreateClient("API");
-        }
-
-        public IActionResult OnGet()
-        {
-            if (User.Identity?.IsAuthenticated == true)
-            {
-                if (User.IsInRole("Administrador")) return RedirectToPage("/Admin/Panel");
-                if (User.IsInRole("Coordinador")) return RedirectToPage("/Coordinador/Panel");
-                return RedirectToPage("Voluntario/Panel"); // Voluntario
-            }
-            return Page();
-        }
+        public void OnGet() { }
 
         public async Task<IActionResult> OnPostAsync()
         {
@@ -47,81 +33,51 @@ namespace FrontendProyecto.Pages.Login
                 return Page();
             }
 
-            var loginData = new
-            {
-                CorreoUsuario,
-                Password
-            };
-
             var content = new StringContent(
-                JsonSerializer.Serialize(loginData),
-                Encoding.UTF8,
-                "application/json"
-            );
+                JsonSerializer.Serialize(new { CorreoUsuario, Password }),
+                Encoding.UTF8, "application/json");
 
-            var response = await _httpClient.PostAsync("api/Auth/login", content);
-
-            if (!response.IsSuccessStatusCode)
+            var resp = await _http.PostAsync("/api/Auth/login", content);
+            if (!resp.IsSuccessStatusCode)
             {
-                MensajeError = "Credenciales inválidas. Intente de nuevo.";
+                MensajeError = "Credenciales inválidas.";
                 return Page();
             }
 
-            var json = await response.Content.ReadAsStringAsync();
-            using var doc = JsonDocument.Parse(json);
+            var json = await resp.Content.ReadAsStringAsync();
+            var doc = JsonDocument.Parse(json);
             var token = doc.RootElement.GetProperty("token").GetString();
-            if (string.IsNullOrEmpty(token))
-            {
-                MensajeError = "No se recibió token.";
-                return Page();
-            }
 
-            var handler = new JwtSecurityTokenHandler();
-            var jwt = handler.ReadJwtToken(token);
-            string? userId = jwt.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier || c.Type == "nameid")?.Value;
-            string? email = jwt.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email || c.Type == "email")?.Value;
-            string? roleName = jwt.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role || c.Type == "role")?.Value
-                               ?? "Voluntario";
+            // 1) Guardar JWT en Session (para HttpClient -> Authorization: Bearer ...)
+            HttpContext.Session.SetString("JWT", token!);
 
-            var claims = new List<Claim>();
-            if (!string.IsNullOrEmpty(userId))
-                claims.Add(new Claim(ClaimTypes.NameIdentifier, userId));
+            // 2) Crear cookie de autenticación con claims del JWT (roles incluidos)
+            var jwt = new JwtSecurityTokenHandler().ReadJwtToken(token);
+            var identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
 
-            if (!string.IsNullOrEmpty(email))
-                claims.Add(new Claim(ClaimTypes.Email, email));
+            var nameId = jwt.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier || c.Type.EndsWith("/nameidentifier"))?.Value;
+            var email = jwt.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email || c.Type.EndsWith("/emailaddress"))?.Value;
+            var roles = jwt.Claims.Where(c => c.Type == ClaimTypes.Role || c.Type.EndsWith("/role")).Select(c => c.Value);
 
-            claims.Add(new Claim(ClaimTypes.Name, email ?? CorreoUsuario));
-
-            claims.Add(new Claim(ClaimTypes.Role, roleName));
-
-            var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-            var principal = new ClaimsPrincipal(identity);
+            if (!string.IsNullOrEmpty(nameId)) identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, nameId));
+            if (!string.IsNullOrEmpty(email)) identity.AddClaim(new Claim(ClaimTypes.Email, email));
+            foreach (var r in roles.Distinct()) identity.AddClaim(new Claim(ClaimTypes.Role, r));
+            if (!string.IsNullOrEmpty(email)) identity.AddClaim(new Claim(ClaimTypes.Name, email));
 
             await HttpContext.SignInAsync(
                 CookieAuthenticationDefaults.AuthenticationScheme,
-                principal,
-                new AuthenticationProperties
-                {
-                    IsPersistent = true,
-                    ExpiresUtc = DateTimeOffset.UtcNow.AddHours(2)
-                });
+                new ClaimsPrincipal(identity),
+                new AuthenticationProperties { IsPersistent = true, ExpiresUtc = DateTimeOffset.UtcNow.AddHours(2) }
+            );
 
-            HttpContext.Session.SetString("JWT", token);
+            // Redirección
+            if (!string.IsNullOrEmpty(ReturnUrl) && Url.IsLocalUrl(ReturnUrl))
+                return LocalRedirect(ReturnUrl);
 
-            Response.Cookies.Append("AuthToken", token!, new CookieOptions
-            {
-                HttpOnly = true,
-                Secure = true,
-                SameSite = SameSiteMode.Strict,
-                Expires = DateTime.Now.AddHours(2)
-            });
-
-            return roleName switch
-            {
-                "Administrador" => RedirectToPage("/Admin/Panel"),
-                "Coordinador" => RedirectToPage("/Coordinador/Panel"),
-                _ => RedirectToPage("/Voluntario/Panel") 
-            };
+            // Si el token tiene Admin, al panel admin; si es coord, al de coord; si no, al de voluntario
+            if (roles.Contains("Administrador")) return RedirectToPage("/Admin/Panel");
+            if (roles.Contains("Coordinador")) return RedirectToPage("/Coordinador/Panel");
+            return RedirectToPage("/Voluntario/Panel");
         }
     }
 }

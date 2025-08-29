@@ -31,8 +31,7 @@ namespace FrontendProyecto.Pages.Ongs
                 NombreOng = data.NombreOng,
                 Descripcion = data.Descripcion,
                 Direccion = data.Direccion,
-                Telefono = data.Telefono,
-                Correo = data.Correo
+                Telefono = data.Telefono
             };
             return Page();
         }
@@ -41,15 +40,14 @@ namespace FrontendProyecto.Pages.Ongs
         {
             if (!ModelState.IsValid) return Page();
 
-            // Asegúrate de enviar Id coherente con el body si tu API lo valida
             var body = new
             {
                 IdOng = Id,
                 Input.NombreOng,
                 Input.Descripcion,
                 Input.Direccion,
-                Input.Telefono,
-                Input.Correo
+                Input.Telefono
+               
             };
 
             var resp = await _httpClient.PutAsJsonAsync($"/api/Ongs/{Id}", body);

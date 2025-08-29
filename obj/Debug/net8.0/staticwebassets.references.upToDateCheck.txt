@@ -1,2 +1,0 @@
-C:\Users\77174\OneDrive\Escritorio\HOY\BackendProyecto\BackendProyecto\obj\Debug\net8.0\staticwebassets.build.json
-C:\Users\77174\OneDrive\Escritorio\HOY\BackendProyecto\BackendProyecto\obj\Debug\net8.0\staticwebassets.build.json

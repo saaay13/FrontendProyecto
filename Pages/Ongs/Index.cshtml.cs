@@ -18,8 +18,7 @@ namespace FrontendProyecto.Pages.Ongs
 
         public async Task OnGet()
         {
-            // Llamada pública (sin token). Si tienes JwtSessionHandler,
-            // solo adxjunta Authorization cuando hay JWT en Session; aquí no habrá.
+          
             Lista = await _httpClient.GetFromJsonAsync<List<OngPublicDto>>("/api/Ongs/public")
                     ?? new List<OngPublicDto>();
         }
