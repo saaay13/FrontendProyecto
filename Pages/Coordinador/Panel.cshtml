@@ -1,0 +1,53 @@
+﻿@page
+@model FrontendProyecto.Pages.Coordinador.PanelModel
+@{
+    ViewData["Title"] = "Panel del Coordinador";
+    Layout = "_Layout";
+}
+<section class="container">
+    <h2 class="mb-3">Panel del Coordinador</h2>
+    <div class="row g-4">
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <div class="h6 text-muted mb-1">Mis Proyectos</div>
+                    <div class="display-6">@Model.MisProyectos</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <div class="h6 text-muted mb-1">Actividades Próximas</div>
+                    <div class="display-6">@Model.ActividadesProximas</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card shadow-sm mt-4">
+        <div class="card-body">
+            <h5 class="card-title">Próximas actividades</h5>
+            @if (Model.TopActividades.Any())
+            {
+                <ul class="list-group list-group-flush">
+                    @foreach (var a in Model.TopActividades)
+                    {
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <div>
+                                <div class="fw-semibold">@a.NombreActividad</div>
+                                <small class="text-muted">@a.Lugar — @a.FechaActividad:dd/MM/yyyy</small>
+                            </div>
+                            <a class="btn btn-sm btn-primary" asp-page="/Coordinador/Actividades/Editar" asp-route-id="@a.IdActividad">Gestionar</a>
+                        </li>
+                    }
+                </ul>
+            }
+            else
+            {
+
+                <p class="text-muted mb-0">Sin actividades próximas.</p>
+            }
+        </div>
+    </div>
+</section>

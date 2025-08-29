@@ -1,0 +1,78 @@
+﻿@page "/Panel"
+@model FrontendProyecto.Pages.Voluntario.PanelModel
+@{
+    ViewData["Title"] = "Mi Panel";
+    Layout = "_Layout";
+}
+
+<section class="container">
+    <h2 class="mb-3">¡Hola, @User.Identity?.Name!</h2>
+
+    <div class="row g-4">
+        <!-- Próximas Actividades -->
+        <div class="col-lg-6">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Próximas actividades</h5>
+                    @if (Model.ProximasActividades.Any())
+                    {
+                        <ul class="list-group list-group-flush">
+                            @foreach (var a in Model.ProximasActividades)
+                            {
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <div class="fw-semibold">@a.NombreActividad</div>
+                                        <small class="text-muted">
+                                            @a.Lugar — @a.FechaActividad:dd/MM/yyyy
+                                        </small>
+                                    </div>
+                                    <a class="btn btn-sm btn-primary"
+                                       asp-page="/Actividades/Detalle" asp-route-id="@a.IdActividad">
+                                        Ver
+                                    </a>
+                                </li>
+                            }
+                        </ul>
+                    }
+                    else
+                    {
+                        <p class="text-muted mb-0">No tienes actividades próximas.</p>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <!-- Mis Certificados -->
+        <div class="col-lg-6">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Mis últimos certificados</h5>
+                    @if (Model.MisCertificados.Any())
+                    {
+                        <ul class="list-group list-group-flush">
+                            @foreach (var c in Model.MisCertificados)
+                            {
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <div class="fw-semibold">Código: @c.CodigoVerificacion</div>
+                                        <small class="text-muted">
+                                            Emitido: @c.FechaEmision:dd/MM/yyyy
+                                        </small>
+                                    </div>
+                                    <a class="btn btn-sm btn-outline-primary"
+                                       asp-page="/Voluntario/Reconocimientos" asp-route-id="@c.IdCertificado">
+                                        Descargar
+                                    </a>
+                                </li>
+                            }
+                        </ul>
+                    }
+                    else
+                    {
+                        <p class="text-muted mb-0">Aún no tienes certificados.</p>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

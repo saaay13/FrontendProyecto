@@ -4,52 +4,146 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - FrontendProyecto</title>
+
+    <!-- Vendor -->
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+
+    <!-- App styles -->
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/FrontendProyecto.styles.css" asp-append-version="true" />
 
+    <style>
+        /* --- Ajustes de layout (puedes moverlos a site.css) --- */
+        .navbar-brand img {
+            height: 56px;
+            width: auto;
+        }
+
+        .navbar-gradient {
+            background: linear-gradient(90deg, #0d1b2a 0%, #1b263b 50%, #0d1b2a 100%);
+        }
+
+            .navbar-gradient .nav-link,
+            .navbar-gradient .navbar-brand span {
+                color: rgba(255,255,255,.9);
+            }
+
+                .navbar-gradient .nav-link:hover,
+                .navbar-gradient .nav-link:focus {
+                    color: #fff;
+                }
+
+            .navbar-gradient .navbar-toggler {
+                border-color: rgba(255,255,255,.25);
+            }
+
+        .shadow-soft {
+            box-shadow: 0 8px 20px rgba(0,0,0,.15);
+        }
+
+        main[role="main"] {
+            padding: 2rem 0 3rem;
+            background: linear-gradient(180deg, #f8fafc 0%, #ffffff 40%);
+            min-height: calc(100vh - 140px); /* aprox: header+footer */
+        }
+
+        /* Estado activo básico (opcional) */
+        .nav-link.active {
+            position: relative;
+            font-weight: 600;
+        }
+
+            .nav-link.active::after {
+                content: "";
+                position: absolute;
+                left: .5rem;
+                right: .5rem;
+                bottom: -.4rem;
+                height: 3px;
+                border-radius: 2px;
+                background: #3b82f6;
+            }
+    </style>
 </head>
 
-
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm">
-            <div class="container">
-                <a class="navbar-brand d-flex align-items-center" asp-area="" asp-page="/Index">
-                    <img src="~/img/LogoSinFondo.png" alt="Logo" style="height:100px; margin-right:10px;" />
-                    <span class="fw-bold text-light">Administración de Voluntariado y Proyectos Sociales</span>
-                </a>
-                <button class="navbar-toggler bg-light" type="button" data-bs-toggle="collapse"
-                        data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
+    <header class="sticky-top">
+        <nav class="navbar navbar-expand-lg navbar-gradient navbar-dark shadow-soft">
+            <ul class="navbar-nav ms-auto">
+                @* Visitante (no autenticado) *@
+                @if (!(User?.Identity?.IsAuthenticated ?? false))
+                {
+                    <li class="nav-item"><a class="nav-link" asp-page="/Index">Inicio</a></li>
+                    <li class="nav-item"><a class="nav-link" asp-page="/Proyectos/Index">Proyectos</a></li>
+                    <li class="nav-item"><a class="nav-link" asp-page="/Actividades/Index">Actividades</a></li>
+                    <li class="nav-item"><a class="nav-link" asp-page="/Verificar/Index">Verificar</a></li>
+                    <li class="nav-item ms-lg-2"><a class="btn btn-outline-light btn-sm" asp-page="/Login/Index">Iniciar sesión</a></li>
+                    <li class="nav-item ms-2"><a class="btn btn-primary btn-sm" asp-page="/Login/Register">Registrarse</a></li>
+                }
+                else
+                {
+                    @* ADMIN *@
+                    if (User.IsInRole("Administrador"))
+                    {
+                        <li class="nav-item"><a class="nav-link" asp-page="/Admin/Panel">Panel</a></li>
+                        <li class="nav-item"><a class="nav-link" asp-page="/Admin/Usuarios/Index">Usuarios & Roles</a></li>
                         <li class="nav-item">
-                            <a class="nav-link text-light" asp-area="" asp-page="/Index">Inicio</a>
+                            <a class="nav-link" asp-page="/Ongs/Index">ONGs</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-light" asp-area="" asp-page="/Privacy">Privacidad</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-light" asp-area="" asp-page="/User/Index">Usuarios</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
+                        <li class="nav-item"><a class="nav-link" asp-page="/Admin/Proyectos/Index">Proyectos</a></li>
+                        <li class="nav-item"><a class="nav-link" asp-page="/Admin/Actividades/Index">Actividades</a></li>
+                        <li class="nav-item"><a class="nav-link" asp-page="/Admin/Reconocimientos/Index">Reconocimientos</a></li>
+                        <li class="nav-item"><a class="nav-link" asp-page="/Admin/Reportes/Index">Reportes</a></li>
+                        <li class="nav-item"><a class="nav-link" asp-page="/Admin/Configuracion/Index">Configuración</a></li>
+                    }
+                    @* COORDINADOR *@
+                    else if (User.IsInRole("Coordinador"))
+                    {
+                        <li class="nav-item"><a class="nav-link" asp-page="/Coordinador/Panel">Panel</a></li>
+                        <li class="nav-item"><a class="nav-link" asp-page="/Coordinador/Proyectos/Index">Mis Proyectos</a></li>
+                        <li class="nav-item"><a class="nav-link" asp-page="/Coordinador/Actividades/Index">Actividades</a></li>
+                        <li class="nav-item"><a class="nav-link" asp-page="/Coordinador/Emision/Index">Emisión</a></li>
+                        <li class="nav-item"><a class="nav-link" asp-page="/Coordinador/Reportes/Index">Reportes</a></li>
+                    }
+                    @* VOLUNTARIO *@
+                    else if (User.IsInRole("Voluntario"))
+                    {
+                        <li class="nav-item"><a class="nav-link" asp-page="/Voluntario/Panel">Panel</a></li>
+                        <li class="nav-item"><a class="nav-link" asp-page="/Voluntario/MisActividades">Mis Actividades</a></li>
+                        <li class="nav-item"><a class="nav-link" asp-page="/Voluntario/Asistencias">Asistencias</a></li>
+                        <li class="nav-item"><a class="nav-link" asp-page="/Voluntario/Reconocimientos">Reconocimientos</a></li>
+                    }
+
+                    <li class="nav-item dropdown ms-lg-3">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            @User.Identity?.Name
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" asp-page="/Perfil/Index">Mi Perfil</a></li>
+                            <li><hr class="dropdown-divider" /></li>
+                            <li>
+                                <form method="post" asp-page="/Login/Logout">
+                                    <button type="submit" class="dropdown-item">Cerrar sesión</button>
+                                </form>
+                            </li>
+                        </ul>
+                    </li>
+                }
+            </ul>
+
         </nav>
     </header>
 
-    <div class="container">
-        <main role="main" class="pb-3">
+    <div class="container flex-fill">
+        <main role="main" class="py-4">
             @RenderBody()
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2025 - FrontendProyecto - <a asp-area="" asp-page="/Privacy">Privacy</a>
+    <footer class="footer mt-auto">
+        <div class="container d-flex justify-content-between align-items-center flex-wrap gap-2">
+            <span>© 2025 - FrontendProyecto</span>
+            <a asp-area="" asp-page="/Privacy">Política de Privacidad</a>
         </div>
     </footer>
 

@@ -1,0 +1,26 @@
+﻿@page "{id:int}"
+@model FrontendProyecto.Pages.Ongs.EditModel
+@{
+    ViewData["Title"] = "Editar ONG";
+}
+
+<h2 class="mb-3">Editar ONG</h2>
+
+<form method="post" class="card p-3 shadow-sm">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <!-- Mantiene el id en el post (opcional pero útil) -->
+    <input type="hidden" asp-for="Id" />
+
+    <!-- Usa SOLO el partial -->
+    <partial name="Partials/_Form" model="Model.Input" />
+
+    <div class="d-flex gap-2">
+        <button type="submit" class="btn btn-primary">Guardar cambios</button>
+        <a asp-page="Index" class="btn btn-outline-secondary">Cancelar</a>
+    </div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

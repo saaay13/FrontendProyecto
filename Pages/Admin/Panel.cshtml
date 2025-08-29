@@ -1,0 +1,39 @@
+﻿@page
+@model FrontendProyecto.Pages.Admin.PanelModel
+@{
+    ViewData["Title"] = "Panel del Administrador";
+    Layout = "_Layout";
+}
+<section class="container">
+    <h2 class="mb-3">Panel del Administrador</h2>
+    <div class="row g-4">
+        <div class="col-md-3">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <div class="h6 text-muted">Usuarios</div><div class="display-6">@Model.Usuarios</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <div class="h6 text-muted">ONGs</div><div class="display-6">@Model.Ongs</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <div class="h6 text-muted">Proyectos</div><div class="display-6">@Model.Proyectos</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <div class="h6 text-muted">Actividades</div><div class="display-6">@Model.Actividades</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

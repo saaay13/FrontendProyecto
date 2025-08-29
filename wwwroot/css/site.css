@@ -20,3 +20,30 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+/* --- Footer limpio y sin solaparse --- */
+.footer {
+    background: #0b1220; /* oscuro elegante */
+    color: #cbd5e1; /* gris claro legible */
+    padding: 14px 0; /* altura cómoda sin line-height fijo */
+}
+
+    /* Links del footer */
+    .footer a {
+        color: #93c5fd;
+        text-decoration: none;
+    }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+    /* Evitar “línea” superior heredada si usas .border-top en otros lados */
+    .footer.border-top {
+        border-top: 0 !important;
+    }
+
+/* Opcional: si alguna regla global agrega bordes por defecto */
+.border-top {
+    border-top: 1px solid #e5e5e5;
+}
