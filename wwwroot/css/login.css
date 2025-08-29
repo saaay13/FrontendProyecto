@@ -1,0 +1,81 @@
+﻿/* wwwroot/css/login.css */
+body {
+    height: 100vh;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: radial-gradient(circle at top left, #1b2d3b, #2c4a5a, #3b6a85, #4c805c, #a3c1d9);
+}
+
+.login-card {
+    background: rgba(27, 45, 59, 0.8);
+    border-radius: 1.5rem;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+    padding: 2.5rem;
+    width: 400px;
+    text-align: center;
+    backdrop-filter: blur(10px);
+}
+
+    .login-card img {
+        width: 80px;
+        margin-bottom: 1rem;
+    }
+
+h3 {
+    color: #a3c1d9;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+}
+
+.form-control {
+    border-radius: 0.8rem;
+    border: none;
+    background: rgba(255, 255, 255, 0.15);
+    color: #ffffff;
+    padding: 0.8rem;
+}
+
+    .form-control::placeholder {
+        color: #a3c1d9;
+    }
+
+    .form-control:focus {
+        outline: none;
+        box-shadow: 0 0 0 0.2rem rgba(163, 193, 217, 0.4);
+        background: rgba(255, 255, 255, 0.25);
+    }
+
+.btn-primary {
+    background: linear-gradient(90deg, #3b6a85, #4c805c);
+    border: none;
+    border-radius: 2rem;
+    font-weight: 600;
+    padding: 0.75rem;
+    transition: transform 0.2s ease;
+}
+
+    .btn-primary:hover {
+        transform: scale(1.05);
+        background: linear-gradient(90deg, #2c4a5a, #3b6a85);
+    }
+
+.extra-links {
+    margin-top: 1rem;
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+}
+
+    .extra-links a {
+        color: #a3c1d9;
+        text-decoration: none;
+        transition: color 0.3s;
+    }
+
+        .extra-links a:hover {
+            color: #ffffff;
+            text-decoration: underline;
+        }

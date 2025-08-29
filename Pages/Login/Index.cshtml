@@ -1,0 +1,33 @@
+﻿@page
+@model FrontendProyecto.Pages.Login.IndexModel
+@{
+    ViewData["Title"] = "Iniciar Sesión";
+}
+
+<div class="login-card">
+    <img src="~/img/LogoSinFondo.png" alt="Logo" />
+    <h3>Iniciar Sesión</h3>
+
+    <form method="post">
+        <div class="mb-3">
+            <input type="email" class="form-control" id="CorreoUsuario" name="CorreoUsuario" placeholder="Correo electrónico" required />
+        </div>
+
+        <div class="mb-3">
+            <input type="password" class="form-control" id="Password" name="Password" placeholder="Contraseña" required minlength="6" />
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100">Ingresar</button>
+
+        <div class="extra-links">
+            <div>
+                <input type="checkbox" id="remember" /> <label for="remember">Recuérdame</label>
+            </div>
+            <a asp-page="/Login/Forgot">¿Olvidaste tu contraseña?</a>
+        </div>
+
+        <div class="mt-3">
+            <a asp-page="/Login/Register">¿No tienes cuenta? Regístrate</a>
+        </div>
+    </form>
+</div>

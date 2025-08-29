@@ -1,0 +1,53 @@
+﻿@page
+@model FrontendProyecto.Pages.Login.RegisterModel
+@{
+    ViewData["Title"] = "Crear Cuenta";
+   
+}
+
+
+    <div class="container d-flex align-items-center justify-content-center vh-100">
+        <div class="card shadow-lg p-4 rounded-4" style="width: 400px;">
+            <h3 class="text-center mb-4">Crear Cuenta</h3>
+
+            @if (!string.IsNullOrEmpty(Model.MensajeError))
+            {
+                <div class="alert alert-danger">@Model.MensajeError</div>
+            }
+
+            <form method="post">
+                <div class="mb-3">
+                    <label for="Nombre" class="form-label">Nombre</label>
+                    <input type="text" class="form-control" id="Nombre" asp-for="Nombre" required />
+                </div>
+
+                <div class="mb-3">
+                    <label for="Apellido" class="form-label">Apellido</label>
+                    <input type="text" class="form-control" id="Apellido" asp-for="Apellido" required />
+                </div>
+
+                <div class="mb-3">
+                    <label for="CorreoUsuario" class="form-label">Correo</label>
+                    <input type="email" class="form-control" id="CorreoUsuario" asp-for="CorreoUsuario" required />
+                </div>
+
+                <div class="mb-3">
+                    <label for="Password" class="form-label">Contraseña</label>
+                    <input type="password" class="form-control" id="Password" asp-for="Password" required minlength="6" />
+                </div>
+
+                <div class="mb-3">
+                    <label for="Telefono" class="form-label">Teléfono</label>
+                    <input type="tel" class="form-control" id="Telefono" asp-for="Telefono" />
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100 rounded-pill">Registrar</button>
+
+                <div class="text-center mt-3">
+                    <a href="/Login/Index" class="text-decoration-none">¿Ya tienes cuenta? Inicia sesión</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+  
