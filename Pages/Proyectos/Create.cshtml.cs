@@ -18,7 +18,7 @@ namespace FrontendProyecto.Pages.Proyectos
 
         public async Task<IActionResult> OnPostAsync()
         {
-            await LoadOptionsAsync();              // <-- IMPORTANTE para re-render si hay errores
+            await LoadOptionsAsync();           
             if (!ModelState.IsValid) return Page();
 
             var resp = await _http.PostAsJsonAsync("/api/Proyectos", Input);

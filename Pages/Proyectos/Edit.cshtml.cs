@@ -32,8 +32,6 @@ namespace FrontendProyecto.Pages.Proyectos
             var p = await _http.GetFromJsonAsync<ProyectoDto>($"/api/Proyectos/{Id}");
             if (p is null) return NotFound();
 
-            // Si EstadoProyecto viene como string ("Activo") o int (0), ajústalo
-            // Aquí asumimos string; si es int, castea: (EstadoProyectoEnum)p.EstadoProyectoInt
             Enum.TryParse<EstadoProyectoEnum>(p.EstadoProyecto, out var estado);
 
             Input = new ProyectoInput
@@ -64,7 +62,7 @@ namespace FrontendProyecto.Pages.Proyectos
                 Input.Descripcion,
                 Input.FechaInicio,
                 Input.FechaFin,
-                EstadoProyecto = Input.EstadoProyecto, // enviará texto; si tu API espera número, envía (int)Input.EstadoProyecto
+                EstadoProyecto = Input.EstadoProyecto, 
                 Input.IdResponsable
             };
 

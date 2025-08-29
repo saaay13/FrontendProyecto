@@ -16,14 +16,14 @@ namespace FrontendProyecto.Pages.Proyectos
 
         public List<ProyectoDto> Lista { get; private set; } = new();
 
-        // Permite filtrar por ONG si viene en la query ?ongId=#
+       
         public async Task OnGetAsync(int? ongId)
         {
             var data = await _http.GetFromJsonAsync<List<ProyectoDto>>("/api/Proyectos") ?? new();
             if (ongId.HasValue)
                 data = data.Where(p => p.IdOng == ongId.Value).ToList();
 
-            // orden por fecha de inicio
+         
             Lista = data.OrderByDescending(p => p.FechaInicio).ToList();
         }
 
