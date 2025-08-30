@@ -1,21 +1,21 @@
 ﻿@page
 @model FrontendProyecto.Pages.Admin.UsuarioRol.CreateModel
 @{
-    ViewData["Title"] = "Asignar rol";
+    ViewData["Title"] = "Crear Usuario (rol asignado automáticamente)";
 }
 
-<h2 class="mb-3">Asignar rol a usuario</h2>
+<div class="card shadow-sm">
+    <div class="card-body">
+        <h5 class="card-title">Crear Usuario</h5>
 
-<form method="post" class="card p-3 shadow-sm">
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-    <partial name="Partials/_Form" model="Model.Form" />
-
-    <div class="d-flex gap-2">
-        <button class="btn btn-primary" type="submit">Asignar</button>
-        <a asp-page="Index" class="btn btn-outline-secondary">Cancelar</a>
+        <form method="post">
+            @await Html.PartialAsync("Partials/_Form", Model.Input, ViewData)
+            <br />
+            <button type="submit" class="btn btn-primary">Crear</button>
+            <a asp-page="Index" class="btn btn-outline-secondary">Cancelar</a>
+        </form>
     </div>
-</form>
+</div>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

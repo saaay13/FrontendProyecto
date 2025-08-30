@@ -1,35 +1,33 @@
-﻿@model FrontendProyecto.Pages.Admin.UsuarioRol.UsuarioRolFormModel
+﻿@model FrontendProyecto.Pages.Admin.UsuarioRol.CreateModel.RegisterInput
 
-<div class="mb-3">
-    <label class="form-label">Usuario</label>
+<div class="row g-3">
+    <div class="col-md-6">
+        <label asp-for="Nombre" class="form-label"></label>
+        <input asp-for="Nombre" class="form-control" />
+        <span asp-validation-for="Nombre" class="text-danger"></span>
+    </div>
 
-    @if (Model.ReadOnlyUsuario)
-    {
-        <input type="hidden" name="Input.IdUsuario" value="@Model.Input.IdUsuario" />
-        var seleccionado = Model.Usuarios.FirstOrDefault(u => u.IdUsuario == Model.Input.IdUsuario);
-        <input class="form-control" value="@(seleccionado is null ? Model.Input.IdUsuario.ToString() : $"{seleccionado.Nombre} ({seleccionado.CorreoUsuario})")" disabled />
-    }
-    else
-    {
-        <select class="form-select" name="Input.IdUsuario" asp-for="Input.IdUsuario">
-            @foreach (var u in Model.Usuarios)
-            {
-                <option value="@u.IdUsuario" selected="@(u.IdUsuario == Model.Input.IdUsuario)">
-                    @u.Nombre (@u.CorreoUsuario)
-                </option>
-            }
-        </select>
-    }
-</div>
+    <div class="col-md-6">
+        <label asp-for="Apellido" class="form-label"></label>
+        <input asp-for="Apellido" class="form-control" />
+        <span asp-validation-for="Apellido" class="text-danger"></span>
+    </div>
 
-<div class="mb-3">
-    <label class="form-label">Rol</label>
-    <select class="form-select" name="Input.IdRol" asp-for="Input.IdRol">
-        @foreach (var r in Model.Roles)
-        {
-            <option value="@r.IdRol" selected="@(r.IdRol == Model.Input.IdRol)">
-                @r.NombreRol
-            </option>
-        }
-    </select>
+    <div class="col-md-6">
+        <label asp-for="CorreoUsuario" class="form-label"></label>
+        <input asp-for="CorreoUsuario" class="form-control" />
+        <span asp-validation-for="CorreoUsuario" class="text-danger"></span>
+    </div>
+
+    <div class="col-md-6">
+        <label asp-for="Telefono" class="form-label"></label>
+        <input asp-for="Telefono" class="form-control" />
+        <span asp-validation-for="Telefono" class="text-danger"></span>
+    </div>
+
+    <div class="col-md-6">
+        <label asp-for="Password" class="form-label"></label>
+        <input asp-for="Password" class="form-control" type="password" />
+        <span asp-validation-for="Password" class="text-danger"></span>
+    </div>
 </div>

@@ -14,34 +14,41 @@ namespace FrontendProyecto.Pages.Admin.UsuarioRol
         [BindProperty(SupportsGet = true)]
         public int IdUsuario { get; set; }
 
-        [BindProperty(SupportsGet = true)]
-        public int IdRol { get; set; }
-
         public string? UsuarioTexto { get; set; }
-        public string? RolTexto { get; set; }
 
         public async Task<IActionResult> OnGetAsync()
         {
-            var usuarios = await _http.GetFromJsonAsync<List<UsuarioItem>>("/api/Auth") ?? new();
-            var roles = await _http.GetFromJsonAsync<List<RolItem>>("/api/Rol") ?? new();
+            // Si tienes rutas espejo, puedes usar /api/Usuario/{IdUsuario}
+            var usuario = await _http.GetFromJsonAsync<UsuarioReadDto>($"/api/Usuarios/{IdUsuario}");
+            if (usuario is null)
+            {
+                ModelState.AddModelError(string.Empty, "Usuario no encontrado.");
+                return Page();
+            }
 
-            var u = usuarios.FirstOrDefault(x => x.IdUsuario == IdUsuario);
-            var r = roles.FirstOrDefault(x => x.IdRol == IdRol);
-
-            UsuarioTexto = u is null ? IdUsuario.ToString() : $"{u.Nombre} ({u.CorreoUsuario})";
-            RolTexto = r is null ? IdRol.ToString() : r.NombreRol;
-
+            UsuarioTexto = $"{usuario.Nombre} {usuario.Apellido} ({usuario.CorreoUsuario})";
             return Page();
         }
 
         public async Task<IActionResult> OnPostAsync()
         {
-            var resp = await _http.DeleteAsync($"/api/UsuarioRol/{IdUsuario}/{IdRol}");
-            if (resp.IsSuccessStatusCode) return RedirectToPage("Index");
+            var resp = await _http.DeleteAsync($"/api/Usuarios/{IdUsuario}");
+            if (resp.IsSuccessStatusCode)
+                return RedirectToPage("Index");
 
             var error = await resp.Content.ReadAsStringAsync();
-            ModelState.AddModelError(string.Empty, string.IsNullOrWhiteSpace(error) ? "No se pudo eliminar la asignación." : error);
+            ModelState.AddModelError(string.Empty,
+                string.IsNullOrWhiteSpace(error) ? "No se pudo eliminar el usuario." : error);
+
             return await OnGetAsync();
+        }
+
+        public class UsuarioReadDto
+        {
+            public int IdUsuario { get; set; }
+            public string Nombre { get; set; } = string.Empty;
+            public string Apellido { get; set; } = string.Empty;
+            public string CorreoUsuario { get; set; } = string.Empty;
         }
     }
 }

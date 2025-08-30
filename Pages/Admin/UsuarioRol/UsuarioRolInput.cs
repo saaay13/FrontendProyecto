@@ -4,10 +4,10 @@ namespace FrontendProyecto.Pages.Admin.UsuarioRol
 {
     public class UsuarioRolInput
     {
-        [Required]
+        [Required(ErrorMessage = "Seleccione un usuario")]
         public int IdUsuario { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Seleccione un rol")]
         public int IdRol { get; set; }
     }
 }

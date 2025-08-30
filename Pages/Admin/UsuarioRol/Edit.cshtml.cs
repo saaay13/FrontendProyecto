@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.ComponentModel.DataAnnotations;
 using System.Net.Http.Json;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace FrontendProyecto.Pages.Admin.UsuarioRol
 {
@@ -43,7 +44,6 @@ namespace FrontendProyecto.Pages.Admin.UsuarioRol
                 Apellido = u.Apellido,
                 CorreoUsuario = u.CorreoUsuario,
                 Telefono = u.Telefono,
-                Direccion = u.Direccion
             };
             TituloUsuario = $"{u.Nombre} {u.Apellido} ({u.CorreoUsuario})";
 
@@ -97,7 +97,6 @@ namespace FrontendProyecto.Pages.Admin.UsuarioRol
             string Apellido,
             string CorreoUsuario,
             string? Telefono,
-            string? Direccion,
             DateTime FechaRegistro
         );
 
@@ -107,7 +106,6 @@ namespace FrontendProyecto.Pages.Admin.UsuarioRol
             [Required] public string Apellido { get; set; } = string.Empty;
             [Required, EmailAddress] public string CorreoUsuario { get; set; } = string.Empty;
             [Phone] public string? Telefono { get; set; }
-            public string? Direccion { get; set; }
         }
 
         public record RolItem(int IdRol, string NombreRol);

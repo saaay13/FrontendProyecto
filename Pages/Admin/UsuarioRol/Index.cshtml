@@ -6,7 +6,7 @@
 
 <h2 class="mb-3">Gestión de Roles</h2>
 
-<a class="btn btn-primary mb-3" asp-page="Create">Asignar rol</a>
+<a class="btn btn-primary mb-3" asp-page="Create">Agregar Usuario</a>
 
 <table class="table table-striped">
     <thead>
@@ -28,6 +28,7 @@
                 <td>@ur.Usuario?.FechaRegistro.ToString("dd/MM/yyyy")</td>
                 <td>@ur.Rol?.NombreRol</td>
                 <td>@ur.FechaAsignacion.ToString("dd/MM/yyyy")</td>
+
                 <td>
                     <a asp-page="Edit"
                        asp-route-idUsuario="@ur.IdUsuario"
@@ -38,8 +39,10 @@
 
                     <a asp-page="Delete"
                        asp-route-idUsuario="@ur.IdUsuario"
-                       asp-route-idRol="@ur.IdRol"
-                       class="btn btn-sm btn-danger">Eliminar</a>
+                       class="btn btn-sm btn-danger">
+                        Eliminar 
+                    </a>
+
                 </td>
             </tr>
         }
