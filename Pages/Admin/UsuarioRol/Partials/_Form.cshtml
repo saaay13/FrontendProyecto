@@ -1,0 +1,35 @@
+﻿@model FrontendProyecto.Pages.Admin.UsuarioRol.UsuarioRolFormModel
+
+<div class="mb-3">
+    <label class="form-label">Usuario</label>
+
+    @if (Model.ReadOnlyUsuario)
+    {
+        <input type="hidden" name="Input.IdUsuario" value="@Model.Input.IdUsuario" />
+        var seleccionado = Model.Usuarios.FirstOrDefault(u => u.IdUsuario == Model.Input.IdUsuario);
+        <input class="form-control" value="@(seleccionado is null ? Model.Input.IdUsuario.ToString() : $"{seleccionado.Nombre} ({seleccionado.CorreoUsuario})")" disabled />
+    }
+    else
+    {
+        <select class="form-select" name="Input.IdUsuario" asp-for="Input.IdUsuario">
+            @foreach (var u in Model.Usuarios)
+            {
+                <option value="@u.IdUsuario" selected="@(u.IdUsuario == Model.Input.IdUsuario)">
+                    @u.Nombre (@u.CorreoUsuario)
+                </option>
+            }
+        </select>
+    }
+</div>
+
+<div class="mb-3">
+    <label class="form-label">Rol</label>
+    <select class="form-select" name="Input.IdRol" asp-for="Input.IdRol">
+        @foreach (var r in Model.Roles)
+        {
+            <option value="@r.IdRol" selected="@(r.IdRol == Model.Input.IdRol)">
+                @r.NombreRol
+            </option>
+        }
+    </select>
+</div>

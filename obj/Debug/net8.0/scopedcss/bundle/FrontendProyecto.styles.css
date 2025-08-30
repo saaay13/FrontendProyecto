@@ -47,3 +47,24 @@ button.accept-policy[b-4sklad4693] {
   white-space: nowrap;
   line-height: 60px;
 }
+
+/* -------------------- Footer (oscuro, pegado abajo) -------------------- */
+.footer[b-4sklad4693] {
+    background: #0b1220; /* el que te gustaba */
+    color: #cbd5e1;
+    padding: 14px 0;
+    /* clave para quedarse al final con el patrón flex */
+}
+
+    .footer a[b-4sklad4693] {
+        color: #93c5fd;
+        text-decoration: none;
+    }
+
+        .footer a:hover[b-4sklad4693] {
+            text-decoration: underline;
+        }
+
+    .footer.border-top[b-4sklad4693] {
+        border-top: 0 !important;
+    }

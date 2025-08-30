@@ -1,0 +1,20 @@
+﻿@page "{idUsuario:int}/{idRol:int}"
+@model FrontendProyecto.Pages.Admin.UsuarioRol.DeleteModel
+@{
+    ViewData["Title"] = "Quitar rol";
+}
+<div class="card shadow-sm">
+    <div class="card-body">
+        <h5 class="card-title">Quitar rol al usuario</h5>
+        <p>
+            ¿Seguro que deseas quitar el rol <strong>@Model.RolTexto</strong>
+            del usuario <strong>@Model.UsuarioTexto</strong>?
+            <br />
+            <small class="text-muted">(El rol no se elimina del sistema, solo se desasigna de este usuario)</small>
+        </p>
+        <form method="post" class="d-flex gap-2">
+            <button class="btn btn-danger" type="submit">Sí, quitar</button>
+            <a asp-page="Index" class="btn btn-outline-secondary">Cancelar</a>
+        </form>
+    </div>
+</div>

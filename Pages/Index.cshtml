@@ -2,43 +2,76 @@
 @model IndexModel
 @{
     ViewData["Title"] = "Bienvenido";
-    Layout = "_Layout"; 
-    }
-<section class="min-vh-100 d-flex align-items-center bg-light">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-xl-8 col-lg-9">
-                <div class="text-center py-5 px-4 px-md-5 rounded-4 shadow-sm bg-white">
-                    <img src="~/img/LogoSinFondo.png" alt="Logo" style="height:80px" class="mb-3" />
-                    <h1 class="display-5 fw-bold mb-2">¡Bienvenido a K&S Social Projects</h1>
-                    <p class="lead text-muted mb-4">
-                        Administra tu aplicación con una experiencia rápida, segura y moderna.
+    Layout = "_Layout";
+}
+
+<section class="hero-ks d-flex align-items-center">
+    <div class="container py-5">
+        <div class="row align-items-center g-4">
+            <div class="col-lg-6">
+                <div class="hero-card shadow-soft rounded-4 p-4 p-md-5 bg-white-95">
+                    <img src="~/img/LogoSinFondo.png" alt="Logo" style="height:72px" class="mb-3" />
+                    <h1 class="display-5 fw-bold mb-2">K&S Social Projects</h1>
+                    <p class="lead mb-4 text-secondary">
+                        Conecta voluntariado, proyectos y reconocimientos en una sola plataforma.
                     </p>
 
-                    
+                    @if (!(User?.Identity?.IsAuthenticated ?? false))
+                    {
+                        <div class="d-flex flex-wrap gap-2">
+                            <a class="btn btn-primary btn-lg px-4" asp-page="/Proyectos/Index">Explorar proyectos</a>
+                            <a class="btn btn-outline-light btn-lg px-4" asp-page="/Actividades/Index">Ver actividades</a>
+                            <a class="btn btn-light btn-lg px-4" asp-page="/Login/Index">Iniciar sesión</a>
+                            <a class="btn btn-success btn-lg px-4" asp-page="/Login/Register">Registrarse</a>
+                        </div>
+                    }
+                    else if (User.IsInRole("Administrador"))
+                    {
+                        <a class="btn btn-primary btn-lg px-4" asp-page="/Admin/Panel">Ir a Panel de Administración</a>
+                    }
+                    else if (User.IsInRole("Coordinador"))
+                    {
+                        <a class="btn btn-primary btn-lg px-4" asp-page="/Coordinador/Panel">Ir a Panel de Coordinación</a>
+                    }
+                    else
+                    {
+                        <a class="btn btn-primary btn-lg px-4" asp-page="/Voluntario/Panel">Ir a mi Panel</a>
+                    }
+                </div>
+            </div>
 
-                    <div class="row g-3 text-start mt-2">
-                        <div class="col-md-4">
-                            <div class="p-3 border rounded-3 h-100">
-                                <h5 class="mb-2">Rápido</h5>
-                                <p class="text-muted mb-0">Carga ágil y navegación fluida pensada para productividad.</p>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="p-3 border rounded-3 h-100">
-                                <h5 class="mb-2">Seguro</h5>
-                                <p class="text-muted mb-0">Autenticación y buenas prácticas para proteger tus datos.</p>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="p-3 border rounded-3 h-100">
-                                <h5 class="mb-2">Escalable</h5>
-                                <p class="text-muted mb-0">Arquitectura preparada para crecer con tu proyecto.</p>
-                            </div>
-                        </div>
-                    </div>
+            <div class="col-lg-6">
+                <!-- Si tienes una imagen hero, colócala en /wwwroot/img/hero.jpg -->
+                <div class="hero-illustration rounded-4 shadow-soft overflow-hidden">
+                    <img src="~/img/hero.jpg" alt="Voluntariado" class="w-100 h-100 object-cover d-none d-md-block" />
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
-                   
+<section class="py-5 bg-white">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="p-4 rounded-4 border feature-card h-100">
+                    <div class="badge badge-soft mb-2">Rápido</div>
+                    <h5 class="mb-2">Experiencia ágil</h5>
+                    <p class="text-muted mb-0">Carga veloz y navegación fluida enfocada en productividad.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="p-4 rounded-4 border feature-card h-100">
+                    <div class="badge badge-soft mb-2">Seguro</div>
+                    <h5 class="mb-2">Autenticación y roles</h5>
+                    <p class="text-muted mb-0">Protege tus datos con buenas prácticas y control de accesos.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="p-4 rounded-4 border feature-card h-100">
+                    <div class="badge badge-soft mb-2">Escalable</div>
+                    <h5 class="mb-2">Listo para crecer</h5>
+                    <p class="text-muted mb-0">Arquitectura preparada para más proyectos y voluntarios.</p>
                 </div>
             </div>
         </div>

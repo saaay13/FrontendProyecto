@@ -1,0 +1,47 @@
+﻿@page
+@model FrontendProyecto.Pages.Admin.Usuarios.IndexModel
+@{
+    ViewData["Title"] = "Usuarios & Roles";
+}
+
+<h2 class="mb-3">Gestión de Roles</h2>
+
+<a class="btn btn-primary mb-3" asp-page="Create">Asignar rol</a>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Usuario</th>
+            <th>Correo</th>
+            <th>Fecha Registro</th>
+            <th>Rol</th>
+            <th>Fecha Asignación</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var ur in Model.Lista)
+        {
+            <tr>
+                <td>@($"{ur.Usuario?.Nombre} {ur.Usuario?.Apellido}")</td>
+                <td>@ur.Usuario?.CorreoUsuario</td>
+                <td>@ur.Usuario?.FechaRegistro.ToString("dd/MM/yyyy")</td>
+                <td>@ur.Rol?.NombreRol</td>
+                <td>@ur.FechaAsignacion.ToString("dd/MM/yyyy")</td>
+                <td>
+                    <a asp-page="Edit"
+                       asp-route-idUsuario="@ur.IdUsuario"
+                       asp-route-idRolActual="@ur.IdRol"
+                       class="btn btn-sm btn-secondary">
+                        Editar
+                    </a>
+
+                    <a asp-page="Delete"
+                       asp-route-idUsuario="@ur.IdUsuario"
+                       asp-route-idRol="@ur.IdRol"
+                       class="btn btn-sm btn-danger">Eliminar</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

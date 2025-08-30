@@ -46,3 +46,24 @@ button.accept-policy {
   white-space: nowrap;
   line-height: 60px;
 }
+
+/* -------------------- Footer (oscuro, pegado abajo) -------------------- */
+.footer {
+    background: #0b1220; /* el que te gustaba */
+    color: #cbd5e1;
+    padding: 14px 0;
+    /* clave para quedarse al final con el patrón flex */
+}
+
+    .footer a {
+        color: #93c5fd;
+        text-decoration: none;
+    }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+    .footer.border-top {
+        border-top: 0 !important;
+    }

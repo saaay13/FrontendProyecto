@@ -24,6 +24,26 @@ build_property.EnableCodeStyleSeverity =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWRtaW5cUGFuZWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/77174/OneDrive/Escritorio/HOY/BackendProyecto/FrontendProyecto/Pages/Admin/UsuarioRol/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWRtaW5cVXN1YXJpb1JvbFxDcmVhdGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/77174/OneDrive/Escritorio/HOY/BackendProyecto/FrontendProyecto/Pages/Admin/UsuarioRol/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWRtaW5cVXN1YXJpb1JvbFxEZWxldGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/77174/OneDrive/Escritorio/HOY/BackendProyecto/FrontendProyecto/Pages/Admin/UsuarioRol/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWRtaW5cVXN1YXJpb1JvbFxFZGl0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/77174/OneDrive/Escritorio/HOY/BackendProyecto/FrontendProyecto/Pages/Admin/UsuarioRol/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWRtaW5cVXN1YXJpb1JvbFxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/77174/OneDrive/Escritorio/HOY/BackendProyecto/FrontendProyecto/Pages/Admin/UsuarioRol/Partials/_Form.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWRtaW5cVXN1YXJpb1JvbFxQYXJ0aWFsc1xfRm9ybS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/77174/OneDrive/Escritorio/HOY/BackendProyecto/FrontendProyecto/Pages/Coordinador/Panel.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29vcmRpbmFkb3JcUGFuZWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
