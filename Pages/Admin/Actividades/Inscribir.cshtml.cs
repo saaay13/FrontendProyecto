@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Net;
 using System.Net.Http.Json;
 
 namespace FrontendProyecto.Pages.Admin.Actividades
@@ -24,19 +25,44 @@ namespace FrontendProyecto.Pages.Admin.Actividades
 
         public async Task<IActionResult> OnGetAsync()
         {
-            // Actividad (para mostrar nombre/fecha)
-            var act = await _http.GetFromJsonAsync<ActividadDto>($"/api/Actividades/{IdActividad}");
-            if (act is null) return NotFound();
+            if (IdActividad <= 0)
+            {
+                TempData["err"] = "Id de actividad inválido.";
+                return RedirectToPage("/Admin/Actividades/Index");
+            }
+
+            // 1) Actividad
+            var respAct = await _http.GetAsync($"/api/Actividades/{IdActividad}");
+            if (respAct.StatusCode == HttpStatusCode.NotFound)
+            {
+                TempData["err"] = "Actividad no encontrada.";
+                return RedirectToPage("/Admin/Actividades/Index");
+            }
+            respAct.EnsureSuccessStatusCode();
+            var act = await respAct.Content.ReadFromJsonAsync<ActividadDto>();
+            if (act is null)
+            {
+                TempData["err"] = "No se pudo cargar la actividad.";
+                return RedirectToPage("/Admin/Actividades/Index");
+            }
             NombreActividad = act.NombreActividad;
 
-            // Usuarios para combo
+            // 2) Usuarios
             var usuarios = await _http.GetFromJsonAsync<List<UsuarioDto>>("/api/Usuarios") ?? new();
             UsuariosOptions = usuarios.Select(u =>
                 new SelectListItem($"{u.Nombre} {u.Apellido} ({u.CorreoUsuario})", u.IdUsuario.ToString())).ToList();
 
-            // Inscripciones existentes
-            Inscripciones = await _http.GetFromJsonAsync<List<InscripcionItem>>
-                ($"/api/Inscripciones/por-actividad/{IdActividad}") ?? new();
+            // 3) Inscripciones (usa tu endpoint real)
+            var respInsc = await _http.GetAsync($"/api/Inscripciones/por-actividad/{IdActividad}");
+            if (respInsc.IsSuccessStatusCode)
+            {
+                Inscripciones = await respInsc.Content.ReadFromJsonAsync<List<InscripcionItem>>() ?? new();
+            }
+            else
+            {
+                TempData["err"] = $"No se pudieron cargar las inscripciones (HTTP {(int)respInsc.StatusCode}).";
+                Inscripciones = new();
+            }
 
             return Page();
         }
