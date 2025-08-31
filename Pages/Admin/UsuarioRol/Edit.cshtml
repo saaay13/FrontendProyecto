@@ -60,6 +60,9 @@
         <a asp-page="Index" class="btn btn-outline-secondary">Cancelar</a>
     </div>
 </form>
+<a asp-page="Password" asp-route-id="@Model.IdUsuario" class="btn btn-warning">
+    Cambiar contraseña
+</a>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

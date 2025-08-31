@@ -1,0 +1,24 @@
+﻿@page "{id:int}"
+@model FrontendProyecto.Pages.Admin.Actividades.DeleteModel
+@{
+    ViewData["Title"] = "Eliminar actividad";
+}
+<div class="card shadow-sm">
+    <div class="card-body">
+        <h5 class="card-title">Eliminar actividad</h5>
+        <p>
+            ¿Seguro que deseas eliminar la actividad <strong>@Model.NombreActividad</strong>
+            @if (!string.IsNullOrEmpty(Model.ProyectoNombre))
+            {
+                <text>del proyecto <strong>@Model.ProyectoNombre</strong></text>
+            }
+            programada para el <strong>@Model.Fecha.ToString("dd/MM/yyyy")</strong>
+            de <strong>@Model.Inicio.ToString(@"hh\:mm")</strong> a <strong>@Model.Fin.ToString(@"hh\:mm")</strong>?
+        </p>
+
+        <form method="post" class="d-flex gap-2">
+            <button class="btn btn-danger" type="submit">Sí, eliminar</button>
+            <a asp-page="Index" class="btn btn-outline-secondary">Cancelar</a>
+        </form>
+    </div>
+</div>

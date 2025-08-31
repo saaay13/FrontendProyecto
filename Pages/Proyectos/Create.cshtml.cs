@@ -33,7 +33,7 @@ namespace FrontendProyecto.Pages.Proyectos
             var ongs = await _http.GetFromJsonAsync<List<OngDto>>("/api/Ongs") ?? new();
             ViewData["OngOptions"] = ongs.Select(o => new SelectListItem(o.NombreOng, o.IdOng.ToString())).ToList();
 
-            var usuarios = await _http.GetFromJsonAsync<List<UsuarioDto>>("/api/Auth") ?? new();
+            var usuarios = await _http.GetFromJsonAsync<List<UsuarioDto>>("/api/Usuarios") ?? new();
             ViewData["ResponsableOptions"] = usuarios
                 .Select(u => new SelectListItem($"{u.Nombre} {u.Apellido} ({u.CorreoUsuario})", u.IdUsuario.ToString()))
                 .ToList();

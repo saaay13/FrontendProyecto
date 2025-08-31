@@ -1,0 +1,68 @@
+﻿@model FrontendProyecto.Pages.Admin.Actividades.ActividadFormModel
+
+<div class="row">
+    <div class="col-md-6 mb-3">
+        <label class="form-label">Proyecto</label>
+        <select asp-for="Input.IdProyecto" class="form-select">
+            @foreach (var p in Model.Proyectos)
+            {
+                <option value="@p.IdProyecto">@p.NombreProyecto</option>
+            }
+        </select>
+        <span asp-validation-for="Input.IdProyecto" class="text-danger"></span>
+    </div>
+
+    <div class="col-md-6 mb-3">
+        <label asp-for="Input.NombreActividad" class="form-label"></label>
+        <input asp-for="Input.NombreActividad" class="form-control" />
+        <span asp-validation-for="Input.NombreActividad" class="text-danger"></span>
+    </div>
+</div>
+
+<div class="mb-3">
+    <label asp-for="Input.Descripcion" class="form-label"></label>
+    <textarea asp-for="Input.Descripcion" rows="3" class="form-control"></textarea>
+    <span asp-validation-for="Input.Descripcion" class="text-danger"></span>
+</div>
+
+<div class="row">
+    <div class="col-md-4 mb-3">
+        <label asp-for="Input.FechaActividad" class="form-label"></label>
+        <input asp-for="Input.FechaActividad" type="date" class="form-control" />
+        <span asp-validation-for="Input.FechaActividad" class="text-danger"></span>
+    </div>
+    <div class="col-md-4 mb-3">
+        <label asp-for="Input.HoraInicio" class="form-label"></label>
+        <input asp-for="Input.HoraInicio" type="time" class="form-control" />
+        <span asp-validation-for="Input.HoraInicio" class="text-danger"></span>
+    </div>
+    <div class="col-md-4 mb-3">
+        <label asp-for="Input.HoraFin" class="form-label"></label>
+        <input asp-for="Input.HoraFin" type="time" class="form-control" />
+        <span asp-validation-for="Input.HoraFin" class="text-danger"></span>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6 mb-3">
+        <label asp-for="Input.Lugar" class="form-label"></label>
+        <input asp-for="Input.Lugar" class="form-control" />
+        <span asp-validation-for="Input.Lugar" class="text-danger"></span>
+    </div>
+    <div class="col-md-3 mb-3">
+        <label asp-for="Input.CupoMaximo" class="form-label"></label>
+        <input asp-for="Input.CupoMaximo" type="number" class="form-control" />
+        <span asp-validation-for="Input.CupoMaximo" class="text-danger"></span>
+    </div>
+    <div class="col-md-3 mb-3">
+        <label asp-for="Input.EstadoActividad" class="form-label"></label>
+        <select asp-for="Input.EstadoActividad" class="form-select">
+            <option value="Planificada">Planificada</option>
+            <option value="EnCurso">EnCurso</option>
+            <option value="Completada">Completada</option>
+            <option value="Cancelada">Cancelada</option>
+        </select>
+
+        <span asp-validation-for="Input.EstadoActividad" class="text-danger"></span>
+    </div>
+</div>

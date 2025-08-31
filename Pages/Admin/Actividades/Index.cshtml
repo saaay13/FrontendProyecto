@@ -1,0 +1,42 @@
+﻿@page
+@model FrontendProyecto.Pages.Admin.Actividades.IndexModel
+@{
+    ViewData["Title"] = "Actividades";
+}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>Actividades</h2>
+    <a asp-page="Create" class="btn btn-primary">Nueva actividad</a>
+</div>
+
+<table class="table table-striped align-middle">
+    <thead>
+        <tr>
+            <th>Proyecto</th>
+            <th>Actividad</th>
+            <th>Fecha</th>
+            <th>Horario</th>
+            <th>Lugar</th>
+            <th>Cupo</th>
+            <th>Estado</th>
+            <th style="width:160px;"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var a in Model.Lista)
+        {
+            <tr>
+                <td>@a.NombreProyecto</td>
+                <td>@a.NombreActividad</td>
+                <td>@a.FechaActividad.ToString("dd/MM/yyyy")</td>
+                <td>@a.HoraInicio.ToString(@"hh\:mm") - @a.HoraFin.ToString(@"hh\:mm")</td>
+                <td>@a.Lugar</td>
+                <td>@a.CupoMaximo</td>
+                <td>@a.EstadoActividad</td>
+                <td class="text-end">
+                    <a asp-page="Edit" asp-route-id="@a.IdActividad" class="btn btn-sm btn-secondary">Editar</a>
+                    <a asp-page="Delete" asp-route-id="@a.IdActividad" class="btn btn-sm btn-danger">Eliminar</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

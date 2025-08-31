@@ -1,0 +1,21 @@
+﻿@page "{id:int}"
+@model FrontendProyecto.Pages.Admin.Actividades.EditModel
+@{
+    ViewData["Title"] = "Editar actividad";
+}
+<h2 class="mb-3">Editar actividad</h2>
+
+<form method="post" class="card p-3 shadow-sm">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <partial name="Partials/_Form" model="Model.Form" />
+
+    <div class="d-flex gap-2">
+        <button type="submit" class="btn btn-primary">Guardar cambios</button>
+        <a asp-page="Index" class="btn btn-outline-secondary">Cancelar</a>
+    </div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
