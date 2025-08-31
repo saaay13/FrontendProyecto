@@ -1,0 +1,42 @@
+﻿@page
+@model AdminConfiguracionIndexModel
+@attribute [Microsoft.AspNetCore.Authorization.Authorize(Roles = "Administrador")]
+@{
+    ViewData["Title"] = "Configuración";
+}
+
+<div class="container">
+    <h2 class="mb-3">Configuración</h2>
+
+    <div class="card shadow-sm">
+        <div class="card-header">
+            <strong>Roles del sistema</strong>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-sm table-hover align-middle">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Rol</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var r in Model.Roles)
+                        {
+                            <tr>
+                                <td>@r.IdRol</td>
+                                <td>@r.NombreRol</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            @* Cuando agregues POST/PUT/DELETE en API, activamos este formulario y acciones *@
+            <div class="alert alert-info mb-0">
+                Para crear/editar/eliminar roles, añade endpoints POST/PUT/DELETE en <code>api/Rol</code>.
+            </div>
+        </div>
+    </div>
+</div>

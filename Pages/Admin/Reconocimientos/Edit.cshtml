@@ -1,0 +1,24 @@
+﻿@page "{id:int}"
+@model AdminReconocimientosEditModel
+@attribute [Microsoft.AspNetCore.Authorization.Authorize(Roles = "Administrador,Coordinador")]
+@{
+    ViewData["Title"] = "Editar reconocimiento (Certificado)";
+    ViewData["EsEdicion"] = true;
+}
+
+<div class="container">
+    <h2 class="mb-3">@ViewData["Title"]</h2>
+
+    <form method="post">
+        <input type="hidden" asp-for="Input.IdCertificado" />
+        <partial name="Partials/_Form" model="Model.Input" />
+        <div class="mt-3 d-flex gap-2">
+            <button class="btn btn-primary" type="submit">Guardar cambios</button>
+            <a class="btn btn-outline-secondary" asp-page="./Index">Volver</a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

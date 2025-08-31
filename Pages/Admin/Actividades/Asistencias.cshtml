@@ -1,0 +1,51 @@
+﻿@page
+@model FrontendProyecto.Pages.Admin.Actividades.AsistenciasModel
+@{
+    ViewData["Title"] = "Asistencias";
+}
+<h4>Asistencias — @Model.NombreActividad</h4>
+
+@if (TempData["ok"] is string ok)
+{
+    <div class="alert alert-success">@ok</div>
+}
+@if (TempData["err"] is string err)
+{
+    <div class="alert alert-danger">@err</div>
+}
+
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr><th>Usuario</th><th>Estado insc.</th><th>Marcar</th></tr>
+        </thead>
+        <tbody>
+            @if (Model.Inscritos.Count == 0)
+            {
+                <tr><td colspan="3" class="text-center py-3">Sin inscritos confirmados</td></tr>
+            }
+            else
+            {
+                @foreach (var i in Model.Inscritos)
+                {
+                    <tr>
+                        <td>@i.NombreUsuario</td>
+                        <td>@i.EstadoInscripcion</td>
+                        <td class="text-nowrap">
+                            <form method="post" asp-page-handler="Marcar" class="d-inline">
+                                <input type="hidden" name="idInscripcion" value="@i.IdInscripcion" />
+                                <input type="hidden" name="asistio" value="true" />
+                                <button class="btn btn-success btn-sm">Presente</button>
+                            </form>
+                            <form method="post" asp-page-handler="Marcar" class="d-inline ms-1">
+                                <input type="hidden" name="idInscripcion" value="@i.IdInscripcion" />
+                                <input type="hidden" name="asistio" value="false" />
+                                <button class="btn btn-outline-secondary btn-sm">Falta</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>

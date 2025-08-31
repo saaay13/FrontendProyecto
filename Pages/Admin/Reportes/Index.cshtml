@@ -1,0 +1,7 @@
+﻿@page
+@model AdminReportesIndexModel
+@attribute [Microsoft.AspNetCore.Authorization.Authorize(Roles = "Administrador")]
+@{
+    ViewData["Title"] = "Reportes";
+}
+<div class="container"><h2>@ViewData["Title"]</h2><p>Panel de reportes administrativos.</p></div>

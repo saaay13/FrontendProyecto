@@ -1,0 +1,68 @@
+﻿@page
+@model FrontendProyecto.Pages.Admin.Actividades.InscribirModel
+@{
+    ViewData["Title"] = "Inscribir usuarios";
+}
+<h4>Actividad: @Model.NombreActividad</h4>
+
+@if (TempData["ok"] is string ok)
+{
+    <div class="alert alert-success">@ok</div>
+}
+@if (TempData["err"] is string err)
+{
+    <div class="alert alert-danger">@err</div>
+}
+
+<form method="post" asp-page-handler="Agregar" class="row g-2 align-items-end mb-3">
+    <div class="col-md-6">
+        <label class="form-label">Usuario</label>
+        <select asp-for="IdUsuarioInscribir" class="form-select">
+            <option value="">-- Seleccione --</option>
+            @foreach (var u in Model.UsuariosOptions)
+            {
+                <option value="@u.Value">@u.Text</option>
+            }
+        </select>
+    </div>
+    <div class="col-md-3">
+        <button class="btn btn-primary">Inscribir</button>
+    </div>
+</form>
+
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr><th>Usuario</th><th>Fecha</th><th>Estado</th><th>Acción</th></tr>
+        </thead>
+        <tbody>
+            @if (Model.Inscripciones.Count == 0)
+            {
+                <tr><td colspan="4" class="text-center py-3">Sin inscripciones</td></tr>
+            }
+            else
+            {
+                @foreach (var i in Model.Inscripciones)
+                {
+                    <tr>
+                        <td>@i.NombreUsuario</td>
+                        <td>@i.FechaInscripcion.ToString("yyyy-MM-dd")</td>
+                        <td>@i.EstadoInscripcion</td>
+                        <td class="text-nowrap">
+                            <form method="post" asp-page-handler="CambiarEstado" class="d-inline">
+                                <input type="hidden" name="idInscripcion" value="@i.IdInscripcion" />
+                                <input type="hidden" name="nuevoEstado" value="Confirmada" />
+                                <button class="btn btn-outline-success btn-sm">Confirmar</button>
+                            </form>
+                            <form method="post" asp-page-handler="CambiarEstado" class="d-inline ms-1">
+                                <input type="hidden" name="idInscripcion" value="@i.IdInscripcion" />
+                                <input type="hidden" name="nuevoEstado" value="Cancelada" />
+                                <button class="btn btn-outline-danger btn-sm">Cancelar</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>

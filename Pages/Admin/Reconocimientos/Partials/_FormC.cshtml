@@ -1,0 +1,52 @@
+﻿@model FrontendProyecto.Pages.Admin.Reconocimientos.ReconocimientoInputC
+@using Microsoft.AspNetCore.Mvc.Rendering
+
+@{
+    var usuarioOptions = ViewData["UsuarioOptions"] as List<SelectListItem> ?? new();
+    var ongOptions = ViewData["OngOptions"] as List<SelectListItem> ?? new();
+    var esEdicion = (bool)(ViewData["EsEdicionC"] ?? false);
+}
+
+<div class="row g-3">
+    @if (esEdicion)
+    {
+        <div class="col-md-6">
+            <label class="form-label">Código verificación</label>
+            <input class="form-control" asp-for="CodigoVerificacion" readonly />
+        </div>
+    }
+
+    <div class="col-md-6">
+        <label class="form-label">Voluntario</label>
+        <select class="form-select" asp-for="IdUsuario" asp-items="usuarioOptions">
+            <option value="">-- Seleccione --</option>
+        </select>
+        <span class="text-danger" asp-validation-for="IdUsuario"></span>
+    </div>
+
+    <div class="col-md-6">
+        <label class="form-label">ONG</label>
+        <select class="form-select" asp-for="IdOng" asp-items="ongOptions">
+            <option value="">-- Seleccione --</option>
+        </select>
+        <span class="text-danger" asp-validation-for="IdOng"></span>
+    </div>
+
+    <div class="col-md-6">
+        <label class="form-label">Fecha de emisión</label>
+        <input class="form-control" asp-for="FechaEmision" type="date" />
+        <span class="text-danger" asp-validation-for="FechaEmision"></span>
+    </div>
+
+    <div class="col-md-6">
+        <label class="form-label">Fecha de vencimiento</label>
+        <input class="form-control" asp-for="FechaVencimiento" type="date" />
+        <span class="text-danger" asp-validation-for="FechaVencimiento"></span>
+    </div>
+
+    <div class="col-12">
+        <label class="form-label">Beneficios</label>
+        <textarea class="form-control" asp-for="Beneficios" rows="3" maxlength="500"></textarea>
+        <span class="text-danger" asp-validation-for="Beneficios"></span>
+    </div>
+</div>

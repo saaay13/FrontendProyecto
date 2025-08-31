@@ -10,8 +10,4 @@
     <ProjectReference Include="..\BackendProyecto\BackendProyecto.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Pages\NewFolder\" />
-  </ItemGroup>
-
 </Project>

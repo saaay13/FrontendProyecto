@@ -1,0 +1,7 @@
+﻿@page
+@model CoordActividadesIndexModel
+@attribute [Microsoft.AspNetCore.Authorization.Authorize(Roles = "Coordinador")]
+@{
+    ViewData["Title"] = "Actividades";
+}
+<div class="container"><h2>@ViewData["Title"]</h2><p>Gestión y seguimiento de actividades.</p></div>

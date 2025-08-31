@@ -1,0 +1,124 @@
+﻿@page
+@model AdminReconocimientosIndexModel
+@attribute [Microsoft.AspNetCore.Authorization.Authorize(Roles = "Administrador")]
+@{
+    ViewData["Title"] = "Reconocimientos";
+}
+
+<div class="container">
+    <div class="d-flex align-items-center justify-content-between mb-3">
+        <h2 class="mb-0">Reconocimientos</h2>
+
+        <div class="btn-group">
+            <a asp-page="./Create" class="btn btn-primary">Nuevo reconocimiento</a>
+            <a asp-page="./CreateC" class="btn btn-outline-primary">Nuevo carnet</a>
+        </div>
+    </div>
+
+    <ul class="nav nav-tabs mb-3" id="recTabs" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="cert-tab" data-bs-toggle="tab" data-bs-target="#cert" type="button" role="tab">
+                Certificados
+            </button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="carnet-tab" data-bs-toggle="tab" data-bs-target="#carnet" type="button" role="tab">
+                Carnets
+            </button>
+        </li>
+        <!-- Botón de la tercera pestaña -->
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="emitir-tab" data-bs-toggle="tab" data-bs-target="#emitir" type="button" role="tab">
+                Emitir
+            </button>
+        </li>
+
+    </ul>
+
+    <div class="tab-content" id="recTabsContent">
+        <!-- CERTIFICADOS -->
+        <div class="tab-pane fade show active" id="cert" role="tabpanel" aria-labelledby="cert-tab">
+            <div class="table-responsive">
+                <table class="table table-sm table-hover align-middle">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Código</th>
+                            <th>Voluntario</th>
+                            <th>ONG</th>
+                            <th>Proyecto</th>
+                            <th>Actividad</th>
+                            <th>Emisión</th>
+                            <th style="width: 180px;" class="text-end">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var c in Model.Certificados)
+                        {
+                            <tr>
+                                <td>@c.IdCertificado</td>
+                                <td>@c.CodigoVerificacion</td>
+                                <td>@c.UsuarioNombre</td>
+                                <td>@c.OngNombre</td>
+                                <td>@c.ProyectoNombre</td>
+                                <td>@c.ActividadNombre</td>
+                                <td>@c.FechaEmision.ToString("yyyy-MM-dd")</td>
+                                <td class="text-end">
+                                    <a asp-page="./Edit" asp-route-id="@c.IdCertificado" class="btn btn-sm btn-outline-secondary me-1">Editar</a>
+                                    <form method="post" asp-page-handler="AnularCert" asp-route-id="@c.IdCertificado" class="d-inline"
+                                          onsubmit="return confirm('¿Anular certificado?');">
+                                        @Html.AntiForgeryToken()
+                                        <button class="btn btn-sm btn-outline-danger">Anular</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- CARNETS -->
+        <div class="tab-pane fade" id="carnet" role="tabpanel" aria-labelledby="carnet-tab">
+            <div class="table-responsive">
+                <table class="table table-sm table-hover align-middle">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Nro/Código</th>
+                            <th>Voluntario</th>
+                            <th>ONG</th>
+                            <th>Emisión</th>
+                            <th>Vencimiento</th>
+                            <th>Estado</th>
+                            <th style="width: 180px;" class="text-end">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var k in Model.Carnets)
+                        {
+                            <tr>
+                                <td>@k.IdCarnet</td>
+                                <td>@k.CodigoVerificacion</td>
+                                <td>@k.UsuarioNombre</td>
+                                <td>@k.OngNombre</td>
+                                <td>@k.FechaEmision.ToString("yyyy-MM-dd")</td>
+                                <td>@k.FechaVencimiento.ToString("yyyy-MM-dd")</td>
+                                <td>@k.EstadoInscripcion</td>
+                                <td class="text-end">
+                                    <a asp-page="./EditC" asp-route-id="@k.IdCarnet" class="btn btn-sm btn-outline-secondary me-1">Editar</a>
+                                    <form method="post" asp-page-handler="AnularCarnet" asp-route-id="@k.IdCarnet" class="d-inline"
+                                          onsubmit="return confirm('¿Eliminar carnet?');">
+                                        @Html.AntiForgeryToken()
+                                        <button class="btn btn-sm btn-outline-danger">Eliminar</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</div>

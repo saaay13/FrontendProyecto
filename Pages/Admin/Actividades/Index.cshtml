@@ -36,6 +36,20 @@
                     <a asp-page="Edit" asp-route-id="@a.IdActividad" class="btn btn-sm btn-secondary">Editar</a>
                     <a asp-page="Delete" asp-route-id="@a.IdActividad" class="btn btn-sm btn-danger">Eliminar</a>
                 </td>
+                <td class="text-nowrap">
+                    <a class="btn btn-outline-primary btn-sm"
+                       asp-page="/Admin/Actividades/Inscribir"
+                       asp-route-idActividad="@a.IdActividad">
+                        Inscribir usuarios
+                    </a>
+
+                    <a class="btn btn-outline-success btn-sm ms-1"
+                       asp-page="/Admin/Actividades/Asistencias"
+                       asp-route-idActividad="@a.IdActividad">
+                        Asistencias
+                    </a>
+                </td>
+
             </tr>
         }
     </tbody>

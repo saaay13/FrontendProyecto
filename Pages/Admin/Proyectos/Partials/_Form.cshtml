@@ -1,0 +1,59 @@
+﻿@model FrontendProyecto.Pages.Admin.Proyectos.ProyectoInput
+@using Microsoft.AspNetCore.Mvc.Rendering
+
+@{
+    // Recupera listas desde ViewData y evita null
+    var ongItems = ViewData["OngOptions"] as IEnumerable<SelectListItem> ?? Enumerable.Empty<SelectListItem>();
+    var respItems = ViewData["ResponsableOptions"] as IEnumerable<SelectListItem> ?? Enumerable.Empty<SelectListItem>();
+}
+
+<div class="row">
+    <div class="col-md-6 mb-3">
+        <label class="form-label">ONG</label>
+        <select class="form-select" asp-for="IdOng" asp-items="ongItems">
+            <option value="">-- Seleccione --</option>
+        </select>
+        <span asp-validation-for="IdOng" class="text-danger"></span>
+    </div>
+
+    <div class="col-md-6 mb-3">
+        <label class="form-label">Responsable</label>
+        <select class="form-select" asp-for="IdResponsable" asp-items="respItems">
+            <option value="">-- Seleccione --</option>
+        </select>
+        <span asp-validation-for="IdResponsable" class="text-danger"></span>
+    </div>
+</div>
+
+<div class="mb-3">
+    <label class="form-label">Nombre del proyecto</label>
+    <input class="form-control" asp-for="NombreProyecto" />
+    <span asp-validation-for="NombreProyecto" class="text-danger"></span>
+</div>
+
+<div class="mb-3">
+    <label class="form-label">Descripción</label>
+    <textarea class="form-control" asp-for="Descripcion" rows="3"></textarea>
+    <span asp-validation-for="Descripcion" class="text-danger"></span>
+</div>
+
+<div class="row">
+    <div class="col-md-4 mb-3">
+        <label class="form-label">Fecha de inicio</label>
+        <input class="form-control" asp-for="FechaInicio" type="date" />
+        <span asp-validation-for="FechaInicio" class="text-danger"></span>
+    </div>
+    <div class="col-md-4 mb-3">
+        <label class="form-label">Fecha de fin</label>
+        <input class="form-control" asp-for="FechaFin" type="date" />
+        <span asp-validation-for="FechaFin" class="text-danger"></span>
+    </div>
+    <div class="col-md-4 mb-3">
+        <label class="form-label">Estado</label>
+        <select class="form-select"
+                asp-for="EstadoProyecto"
+                asp-items="Html.GetEnumSelectList<FrontendProyecto.Pages.Admin.Proyectos.EstadoProyectoEnum>()">
+        </select>
+        <span asp-validation-for="EstadoProyecto" class="text-danger"></span>
+    </div>
+</div>

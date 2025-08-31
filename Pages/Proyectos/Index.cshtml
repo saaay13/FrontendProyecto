@@ -1,67 +1,6 @@
 ﻿@page
-@model FrontendProyecto.Pages.Proyectos.IndexModel
+@model ProyectosIndexModel
 @{
     ViewData["Title"] = "Proyectos";
 }
-
-<div class="d-flex justify-content-between align-items-center mb-3">
-    <h2 class="mb-0">Proyectos</h2>
-
-    @if (User.IsInRole("Administrador") || User.IsInRole("Coordinador"))
-    {
-        <a class="btn btn-primary" asp-page="Create">Nuevo Proyecto</a>
-    }
-</div>
-
-@if (Model.Lista.Any())
-{
-    <div class="table-responsive">
-        <table class="table table-sm align-middle">
-            <thead>
-                <tr>
-                    <th>Proyecto</th>
-                    <th class="text-nowrap">Fecha inicio</th>
-                    <th class="text-nowrap">Fecha fin</th>
-                    <th>Estado</th>
-                    <th>ONG</th>
-                    <th class="text-end">Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var p in Model.Lista)
-                {
-                    <tr>
-                        <td>
-                            <div class="fw-semibold">@p.IdProyecto</div>
-
-                            <div class="fw-semibold">@p.NombreProyecto</div>
-                            <div class="small text-muted">@p.Descripcion</div>
-                        </td>
-                        <td class="text-nowrap">@p.FechaInicio</td>
-                        <td class="text-nowrap">@p.FechaFin</td>
-                        <td>@p.EstadoProyecto</td>
-
-
-                        <td>@p.IdOng</td>
-                        <td class="text-end">
-                            <a class="btn btn-outline-primary btn-sm"
-                               asp-page="/Actividades/Index" asp-route-proyectoId="@p.IdProyecto">
-                                Actividades
-                            </a>
-
-                            @if (User.IsInRole("Administrador") || User.IsInRole("Coordinador"))
-                            {
-                                <a class="btn btn-sm btn-secondary" asp-page="Edit" asp-route-id="@p.IdProyecto">Editar</a>
-                                <a class="btn btn-sm btn-danger" asp-page="Delete" asp-route-id="@p.IdProyecto">Eliminar</a>
-                            }
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    </div>
-}
-else
-{
-    <p class="text-muted">No hay proyectos.</p>
-}
+<div class="container"><h2>@ViewData["Title"]</h2><p>Listado público de proyectos.</p></div>

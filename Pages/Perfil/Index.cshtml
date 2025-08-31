@@ -1,0 +1,7 @@
+﻿@page
+@model PerfilIndexModel
+@attribute [Microsoft.AspNetCore.Authorization.Authorize]
+@{
+    ViewData["Title"] = "Mi Perfil";
+}
+<div class="container"><h2>@ViewData["Title"]</h2><p>Datos del usuario autenticado.</p></div>

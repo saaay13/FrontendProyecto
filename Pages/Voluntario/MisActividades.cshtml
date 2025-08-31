@@ -1,0 +1,7 @@
+﻿@page
+@model VoluntarioMisActividadesModel
+@attribute [Microsoft.AspNetCore.Authorization.Authorize(Roles = "Voluntario")]
+@{
+    ViewData["Title"] = "Mis Actividades";
+}
+<div class="container"><h2>@ViewData["Title"]</h2><p>Listado de actividades inscritas/asistencias pendientes.</p></div>

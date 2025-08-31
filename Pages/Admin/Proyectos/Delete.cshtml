@@ -1,0 +1,17 @@
+﻿@page "{id:int}"
+@model FrontendProyecto.Pages.Admin.Proyectos.DeleteModel
+@{
+    ViewData["Title"] = "Eliminar Proyecto";
+}
+
+<div class="card shadow-sm">
+    <div class="card-body">
+        <h5 class="card-title">Eliminar Proyecto</h5>
+        <p>¿Seguro que deseas eliminar el proyecto <strong>@Model.Nombre</strong>?</p>
+
+        <form method="post" class="d-flex gap-2">
+            <button type="submit" class="btn btn-danger">Sí, eliminar</button>
+            <a asp-page="Index" class="btn btn-outline-secondary">Cancelar</a>
+        </form>
+    </div>
+</div>

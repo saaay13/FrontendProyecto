@@ -1,0 +1,22 @@
+﻿@page
+@model FrontendProyecto.Pages.Admin.Ongs.CreateModel
+@{
+    ViewData["Title"] = "Nueva ONG";
+}
+
+<h2 class="mb-3">Nueva ONG</h2>
+
+<form method="post" class="card p-3 shadow-sm">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <partial name="Partials/_Form" model="Model.Input" />
+
+    <div class="d-flex gap-2">
+        <button type="submit" class="btn btn-primary">Guardar</button>
+        <a asp-page="Index" class="btn btn-outline-secondary">Cancelar</a>
+    </div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
