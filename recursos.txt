@@ -1,1 +1,3 @@
 ﻿#1b2d3b #2c4a5a #3b6a85 #4c805c #a3c1d9
+dotnet add BackendProyecto package QuestPDF
+dotnet add BackendProyecto package QRCoder

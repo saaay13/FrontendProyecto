@@ -8,7 +8,6 @@
 <h2 class="mb-3">Reconocimientos</h2>
 
 <div class="d-flex gap-2 mb-3">
-    <a asp-page="./Create" class="btn btn-primary">Nuevo reconocimiento</a>
     <a asp-page="./CreateC" class="btn btn-outline-primary">Nuevo carnet</a>
 </div>
 
@@ -48,8 +47,7 @@
                         <td>@c.ActividadNombre</td>
                         <td class="text-nowrap">@c.FechaEmision.ToString("dd/MM/yyyy")</td>
                         <td class="text-end text-nowrap">
-                            <a asp-page="./Edit" asp-route-id="@c.IdCertificado"
-                               class="btn btn-sm btn-secondary me-1">Editar</a>
+                            
                             <form method="post"
                                   asp-page-handler="AnularCert"
                                   asp-route-id="@c.IdCertificado"
@@ -93,29 +91,27 @@
             {
                 @foreach (var k in Model.Carnets)
                 {
+                    var vencido = k.FechaVencimiento.HasValue && k.FechaVencimiento.Value.Date < DateTime.Today;
+                    var (badgeClass, badgeText) = !k.Activo
+                    ? ("badge bg-secondary", "Inactivo")
+                    : (vencido ? ("badge bg-danger", "Vencido") : ("badge bg-success", "Activo"));
+
                     <tr>
                         <td>@k.IdCarnet</td>
-                        <td class="small text-muted">@k.CodigoVerificacion</td>
+                        <td class="small text-muted">
+                            @k.CodigoVerificacion
+                            @* Si fuera Guid y quieres sin guiones: @(Guid.TryParse(k.CodigoVerificacion, out var g) ? g.ToString("N") : k.CodigoVerificacion) *@
+                        </td>
                         <td class="fw-semibold">@k.UsuarioNombre</td>
                         <td>@k.OngNombre</td>
                         <td class="text-nowrap">@k.FechaEmision.ToString("dd/MM/yyyy")</td>
-                        <td class="text-nowrap">@k.FechaVencimiento.ToString("dd/MM/yyyy")</td>
-                        <td>
-                            @{
-                                var est = k.EstadoInscripcion?.ToString() ?? "";
-                                var (badgeClass, badgeText) = est switch
-                                {
-                                    "Activo" => ("text-success", "Activo"),
-                                    "Suspendido" => ("text-danger", "Suspendido"),
-                                    "Vencido" => ("text-danger", "Vencido"),
-                                    _ => ("text-muted", est)
-                                };
-                            }
-                            <span class="@badgeClass">@badgeText</span>
-                        </td>
+                        <td class="text-nowrap">@((k.FechaVencimiento?.ToString("dd/MM/yyyy")) ?? "-")</td>
+                        <td><span class="@badgeClass">@badgeText</span></td>
                         <td class="text-end text-nowrap">
-                            <a asp-page="./EditC" asp-route-id="@k.IdCarnet"
-                               class="btn btn-sm btn-secondary me-1">Editar</a>
+                            <a class="btn btn-sm btn-outline-primary" asp-page="./Pdf" asp-route-id="@k.IdCarnet" target="_blank">
+                                Descargar
+                            </a>
+
                             <form method="post"
                                   asp-page-handler="AnularCarnet"
                                   asp-route-id="@k.IdCarnet"
@@ -131,6 +127,7 @@
         </tbody>
     </table>
 </div>
+
 
 <!-- (Opcional) Sección de emisión simple como nota -->
 <div class="mt-5 text-muted">

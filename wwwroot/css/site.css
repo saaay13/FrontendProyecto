@@ -30,32 +30,47 @@ html {
     --shadow-soft: 0 8px 20px rgba(0,0,0,.15);
 }
 
-/* -------------------- Layout (sticky footer con flex) -------------------- */
-/* Forzar sticky footer */
-html, body {
-    height: 100% !important;
+html {
+    block-size: 100%;
 }
-
 body {
-    display: flex !important;
-    flex-direction: column !important;
-    min-height: 100vh !important;
+    min-block-size: 100svh; /* usa svh para evitar saltos en móviles */
+    display: flex;
+    flex-direction: column;
+    margin: 0; /* por si acaso */
 }
 
-.container.flex-fill,
 main[role="main"] {
-    flex: 1 0 auto !important; /* empuja el footer hacia abajo */
+    flex: 1 1 auto; /* ¡clave! ocupa el espacio restante */
+    min-block-size: 0; /* evita overflow que empuje al footer */
 }
 
+/* Si envolvés main en .container, hacé que ese contenedor también pueda crecer */
+.container.flex-fill {
+    flex: 1 1 auto; /* tu contenedor intermedio también crece */
+    min-block-size: 0;
+}
+
+/* 3) Footer siempre al final, sin position fixed */
 .footer {
-    margin-top: auto !important; /* fuerza al fondo */
-    flex-shrink: 0 !important;
-    background: linear-gradient(90deg, var(--c2), var(--c1)) !important;
-    color: var(--text-on-dark) !important;
-    padding: 1rem 0 !important;
-    box-shadow: 0 -6px 18px rgba(0,0,0,.08) !important;
+    margin-top: auto; /* fuerza a bajar */
+    flex-shrink: 0; /* no se achica */
+    background: linear-gradient(90deg, var(--c2), var(--c1));
+    color: var(--text-on-dark);
+    padding: 1rem 0;
+    box-shadow: 0 -6px 18px rgba(0,0,0,.08);
 }
 
+/* 4) Si usás tablas largas, asegurá scroll horizontal sin romper el layout */
+.table-responsive {
+    overflow-x: auto;
+}
+
+/* 5) Evitá interferencias: nunca fijes el footer */
+.footer {
+    position: static !important;
+}
+/* por si en otro lado quedó 'fixed' */
 
 
 /* Quitar viejos patrones de sticky footer (NO usar):
