@@ -4,64 +4,92 @@
     ViewData["Title"] = "Proyectos";
 }
 
-<div class="d-flex justify-content-between align-items-center mb-3">
-    <h2 class="mb-0">Proyectos</h2>
+<h2 class="mb-3">Proyectos</h2>
 
-    @if (User.IsInRole("Administrador") || User.IsInRole("Coordinador"))
-    {
-        <a class="btn btn-primary" asp-page="Create">Nuevo Proyecto</a>
-    }
-</div>
-
-@if (Model.Lista.Any())
+@if (User.IsInRole("Administrador") || User.IsInRole("Coordinador"))
 {
-    <div class="table-responsive">
-        <table class="table table-sm align-middle">
-            <thead>
+    <a class="btn btn-primary mb-3" asp-page="Create">Nuevo Proyecto</a>
+}
+
+<div class="table-responsive">
+    <table class="table table-striped align-middle">
+        <thead>
+            <tr>
+                <th>Proyecto</th>
+                <th class="text-nowrap">Fecha inicio</th>
+                <th class="text-nowrap">Fecha fin</th>
+                <th>Estado</th>
+                <th>ONG</th>
+                <th class="text-end" style="width:240px;">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.Lista is null || !Model.Lista.Any())
+            {
                 <tr>
-                    <th>Proyecto</th>
-                    <th class="text-nowrap">Fecha inicio</th>
-                    <th class="text-nowrap">Fecha fin</th>
-                    <th>Estado</th>
-                    <th>ONG</th>
-                    <th class="text-end">Acciones</th>
+                    <td colspan="6" class="text-center py-3">No hay proyectos.</td>
                 </tr>
-            </thead>
-            <tbody>
+            }
+            else
+            {
                 @foreach (var p in Model.Lista)
                 {
                     <tr>
                         <td>
-                            <div class="fw-semibold">@p.IdProyecto</div>
-
                             <div class="fw-semibold">@p.NombreProyecto</div>
-                            <div class="small text-muted">@p.Descripcion</div>
-                        </td>
-                        <td class="text-nowrap">@p.FechaInicio</td>
-                        <td class="text-nowrap">@p.FechaFin</td>
-                        <td>@p.EstadoProyecto</td>
-
-
-                        <td>@p.IdOng</td>
-                        <td class="text-end">
-                            <a class="btn btn-outline-primary btn-sm"
-                               asp-page="/Actividades/Index" asp-route-proyectoId="@p.IdProyecto">
-                                Actividades
-                            </a>
-
-                            @if (User.IsInRole("Administrador") || User.IsInRole("Coordinador"))
+                            @if (!string.IsNullOrWhiteSpace(p.Descripcion))
                             {
-                                <a class="btn btn-sm btn-secondary" asp-page="Edit" asp-route-id="@p.IdProyecto">Editar</a>
-                                <a class="btn btn-sm btn-danger" asp-page="Delete" asp-route-id="@p.IdProyecto">Eliminar</a>
+                                <div class="small text-muted">@p.Descripcion</div>
                             }
+                            <div class="text-muted small">ID: @p.IdProyecto</div>
+                        </td>
+
+                        <td class="text-nowrap">@p.FechaInicio.ToString("dd/MM/yyyy")</td>
+                        <td class="text-nowrap">@p.FechaFin.ToString("dd/MM/yyyy")</td>
+
+                        <td>
+                            @{
+                                var estado = p.EstadoProyecto?.ToString() ?? "";
+                                var (badgeClass, badgeText) = estado switch
+                                {
+                                    "Activo" => ("text-success", "Activo"),
+                                    "Finalizado" => ("text-success", "Finalizado"),
+                                    "Cancelado" => ("text-danger", "Cancelado"),
+                                    _ => ("text-muted", estado)
+                                };
+                            }
+                            <span class="@badgeClass">@badgeText</span>
+                        </td>
+
+                        <td>
+                            @* Reemplaza por el nombre de la ONG cuando lo tengas en el DTO *@
+                            <span class="text-muted">ONG #@p.IdOng</span>
+                        </td>
+
+                        <td class="text-end text-nowrap">
+                            <div class="btn-group">
+                                <a class="btn btn-sm btn-outline-secondary"
+                                   asp-page="/Actividades/Index"
+                                   asp-route-proyectoId="@p.IdProyecto">
+                                    Actividades
+                                </a>
+
+                                @if (User.IsInRole("Administrador") || User.IsInRole("Coordinador"))
+                                {
+                                    <a class="btn btn-sm btn-outline-secondary"
+                                       asp-page="Edit" asp-route-id="@p.IdProyecto">
+                                        Editar
+                                    </a>
+                                    <a class="btn btn-sm btn-outline-danger"
+                                       asp-page="Delete" asp-route-id="@p.IdProyecto">
+                                        Eliminar
+                                    </a>
+                                }
+                            </div>
                         </td>
                     </tr>
                 }
-            </tbody>
-        </table>
-    </div>
-}
-else
-{
-    <p class="text-muted">No hay proyectos.</p>
-}
+            }
+        </tbody>
+    </table>
+</div>

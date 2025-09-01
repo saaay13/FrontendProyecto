@@ -132,10 +132,6 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWRtaW5cUmVjb25vY2ltaWVudG9zXFBhcnRpYWxzXF9Gb3JtQy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/77174/OneDrive/Escritorio/HOY/BackendProyecto/FrontendProyecto/Pages/Admin/Reportes/Index.cshtml]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWRtaW5cUmVwb3J0ZXNcSW5kZXguY3NodG1s
-build_metadata.AdditionalFiles.CssScope = 
-
 [C:/Users/77174/OneDrive/Escritorio/HOY/BackendProyecto/FrontendProyecto/Pages/Admin/UsuarioRol/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWRtaW5cVXN1YXJpb1JvbFxDcmVhdGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
@@ -164,20 +160,12 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29vcmRpbmFkb3JcQWN0aXZpZGFkZXNcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/77174/OneDrive/Escritorio/HOY/BackendProyecto/FrontendProyecto/Pages/Coordinador/Emision/Index.cshtml]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29vcmRpbmFkb3JcRW1pc2lvblxJbmRleC5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
 [C:/Users/77174/OneDrive/Escritorio/HOY/BackendProyecto/FrontendProyecto/Pages/Coordinador/Panel.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29vcmRpbmFkb3JcUGFuZWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/77174/OneDrive/Escritorio/HOY/BackendProyecto/FrontendProyecto/Pages/Coordinador/Proyectos/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29vcmRpbmFkb3JcUHJveWVjdG9zXEluZGV4LmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/77174/OneDrive/Escritorio/HOY/BackendProyecto/FrontendProyecto/Pages/Coordinador/Reportes/Index.cshtml]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29vcmRpbmFkb3JcUmVwb3J0ZXNcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/77174/OneDrive/Escritorio/HOY/BackendProyecto/FrontendProyecto/Pages/Error.cshtml]
@@ -226,10 +214,6 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/77174/OneDrive/Escritorio/HOY/BackendProyecto/FrontendProyecto/Pages/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/77174/OneDrive/Escritorio/HOY/BackendProyecto/FrontendProyecto/Pages/Verificar/Index.cshtml]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVmVyaWZpY2FyXEluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/77174/OneDrive/Escritorio/HOY/BackendProyecto/FrontendProyecto/Pages/Voluntario/Asistencias.cshtml]

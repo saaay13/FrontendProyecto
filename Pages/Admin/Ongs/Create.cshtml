@@ -4,18 +4,24 @@
     ViewData["Title"] = "Nueva ONG";
 }
 
-<h2 class="mb-3">Nueva ONG</h2>
-
-<form method="post" class="card p-3 shadow-sm">
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-    <partial name="Partials/_Form" model="Model.Input" />
-
-    <div class="d-flex gap-2">
-        <button type="submit" class="btn btn-primary">Guardar</button>
-        <a asp-page="Index" class="btn btn-outline-secondary">Cancelar</a>
+<div class="card card-admin">
+    <div class="card-header">
+        <h5 class="mb-0">Nueva ONG</h5>
     </div>
-</form>
+
+    <div class="card-body">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+            <partial name="Partials/_Form" model="Model.Input" />
+
+            <div class="d-flex gap-2 justify-content-end mt-3">
+                <a asp-page="Index" class="btn btn-admin-outline">Cancelar</a>
+                <button type="submit" class="btn btn-admin">Guardar</button>
+            </div>
+        </form>
+    </div>
+</div>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

@@ -57,36 +57,74 @@
 
     <div class="card">
         <div class="card-header"><strong>Inscripciones</strong></div>
-        <div class="table-responsive">
-            <table class="table table-striped mb-0">
-                <thead><tr><th>Actividad</th><th>Fecha</th><th>Lugar</th><th>Estado</th><th>Asist.</th><th>%</th><th></th></tr></thead>
-                <tbody>
-                    @foreach (var i in Model.InscripcionesVM)
-                    {
+
+        @if (Model.InscripcionesVM.Count == 0)
+        {
+            <div class="p-3">
+                <em>No se encontraron inscripciones para este usuario.</em>
+            </div>
+        }
+        else
+        {
+            <div class="table-responsive">
+                <table class="table table-striped mb-0">
+                    <thead>
                         <tr>
-                            <td>@i.NombreActividad</td>
-                            <td>@i.FechaActividad.ToString("yyyy-MM-dd")</td>
-                            <td>@i.Lugar</td>
-                            <td>@i.EstadoInscripcion</td>
-                            <td>@i.Presentes / @i.TotalAsistencias</td>
-                            <td>@i.Porcentaje%</td>
-                            <td>
-                                @if (i.ElegibleCertificado)
-                                {
-                                    <form method="post" asp-page-handler="EmitirCertificado">
-                                        <input type="hidden" name="IdActividad" value="@i.IdActividad" />
-                                        <button class="btn btn-success btn-sm">Emitir Certificado</button>
-                                    </form>
-                                }
-                                else
-                                {
-                                    <button class="btn btn-secondary btn-sm" disabled>Emitir</button>
-                                }
-                            </td>
+                            <th>Actividad</th>
+                            <th>Fecha</th>
+                            <th>Lugar</th>
+                            <th>Estado</th>
+                            <th>Progreso</th>
+                            <th>Completado</th>
+                            <th></th>
                         </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
+                    </thead>
+                    <tbody>
+                        @foreach (var i in Model.InscripcionesVM)
+                        {
+                            <tr>
+                                <td>@i.NombreActividad</td>
+                                <td>@i.FechaActividad.ToString("yyyy-MM-dd")</td>
+                                <td>@i.Lugar</td>
+                                <td>@i.EstadoInscripcion</td>
+
+                                <td>
+                                    <span class="badge bg-info text-dark">
+                                        @i.DiasRegistrados / @i.DiasRequeridos
+                                    </span>
+                                </td>
+
+                                <td>
+                                    @if (i.Completado)
+                                    {
+                                        <span class="badge bg-success">✔️ Sí</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-secondary">❌ No</span>
+                                    }
+                                </td>
+
+                                <td class="text-end">
+                                    @if (i.ElegibleCertificado)
+                                    {
+                                        <form method="post" asp-page-handler="EmitirCertificado" class="d-inline">
+                                            <input type="hidden" name="IdActividad" value="@i.IdActividad" />
+                                            <button class="btn btn-success btn-sm">Emitir Certificado</button>
+                                        </form>
+                                    }
+                                    else
+                                    {
+                                        <button class="btn btn-secondary btn-sm" disabled title="Se emite cuando la inscripción está confirmada, la actividad ya inició y el progreso está completado.">
+                                            Emitir
+                                        </button>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
     </div>
 }

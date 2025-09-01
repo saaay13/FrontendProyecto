@@ -4,22 +4,27 @@
     ViewData["Title"] = "Editar ONG";
 }
 
-<h2 class="mb-3">Editar ONG</h2>
-
-<form method="post" class="card p-3 shadow-sm">
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-
-    <input type="hidden" asp-for="Id" />
-
-
-    <partial name="Partials/_Form" model="Model.Input" />
-
-    <div class="d-flex gap-2">
-        <button type="submit" class="btn btn-primary">Guardar cambios</button>
-        <a asp-page="Index" class="btn btn-outline-secondary">Cancelar</a>
+<div class="card card-admin">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <h5 class="mb-0">Editar ONG</h5>
+        <span class="kpi-pill">ID: @Model.Id</span>
     </div>
-</form>
+
+    <div class="card-body">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+            <input type="hidden" asp-for="Id" />
+
+            <partial name="Partials/_Form" model="Model.Input" />
+
+            <div class="d-flex gap-2 justify-content-end mt-3">
+                <a asp-page="Index" class="btn btn-admin-outline">Cancelar</a>
+                <button type="submit" class="btn btn-admin">Guardar cambios</button>
+            </div>
+        </form>
+    </div>
+</div>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

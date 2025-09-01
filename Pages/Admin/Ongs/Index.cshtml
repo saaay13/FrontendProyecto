@@ -4,54 +4,62 @@
     ViewData["Title"] = "ONGs";
 }
 
-<div class="d-flex justify-content-between align-items-center mb-3">
-    <h2 class="mb-0">ONGs</h2>
+<h2 class="mb-3">Gestión de ONGs</h2>
 
-    @* Botón solo para Admin/Coordinador *@
-    @if (User.IsInRole("Administrador") || User.IsInRole("Coordinador"))
-    {
-        <a class="btn btn-primary" asp-page="Create">Nueva ONG</a>
-    }
-</div>
-
-@if (Model.Lista.Any())
+@if (User.IsInRole("Administrador") || User.IsInRole("Coordinador"))
 {
-    <div class="row g-3">
+    <a class="btn btn-primary mb-3" asp-page="Create">Nueva ONG</a>
+}
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Descripción</th>
+            <th>Dirección</th>
+            <th>Teléfono</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
         @foreach (var o in Model.Lista)
         {
-            <div class="col-md-6 col-lg-4">
-                <div class="card h-100 shadow-sm">
-                    <div class="card-body d-flex flex-column">
-                        <h5 class="card-title mb-1">@o.NombreOng</h5>
-                        <div class="small text-muted mb-2">
-                            
-                            @if (!string.IsNullOrWhiteSpace(o.Telefono))
-                            {
-                                @(" · " + o.Telefono)
-                            }
-                        </div>
-                        <p class="card-text flex-grow-1">@o.Descripcion</p>
+            <tr>
+                <td>@o.NombreOng</td>
+                <td>@o.Descripcion</td>
+                <td>@o.Direccion</td>
+                <td>
+                    @if (!string.IsNullOrWhiteSpace(o.Telefono))
+                    {
+                        <span class="badge bg-success">@o.Telefono</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-secondary">–</span>
+                    }
+                </td>
+                <td>
+                    <a asp-page="/Proyectos/Index"
+                       asp-route-ongId="@o.IdOng"
+                       class="btn btn-sm btn-secondary">
+                        Proyectos
+                    </a>
 
-                        <div class="d-flex gap-2">
-                            <a class="btn btn-outline-primary btn-sm"
-                               asp-page="/Proyectos/Index" asp-route-ongId="@o.IdOng">
-                                Ver proyectos
-                            </a>
-
-                            @* Acciones solo para Admin/Coordinador *@
-                            @if (User.IsInRole("Administrador") || User.IsInRole("Coordinador"))
-                            {
-                                <a class="btn btn-sm btn-secondary" asp-page="Edit" asp-route-id="@o.IdOng">Editar</a>
-                                <a class="btn btn-sm btn-danger" asp-page="Delete" asp-route-id="@o.IdOng">Eliminar</a>
-                            }
-                        </div>
-                    </div>
-                </div>
-            </div>
+                    @if (User.IsInRole("Administrador") || User.IsInRole("Coordinador"))
+                    {
+                        <a asp-page="Edit"
+                           asp-route-id="@o.IdOng"
+                           class="btn btn-sm btn-secondary">
+                            Editar
+                        </a>
+                        <a asp-page="Delete"
+                           asp-route-id="@o.IdOng"
+                           class="btn btn-sm btn-danger">
+                            Eliminar
+                        </a>
+                    }
+                </td>
+            </tr>
         }
-    </div>
-}
-else
-{
-    <p class="text-muted">No hay ONGs registradas.</p>
-}
+    </tbody>
+</table>

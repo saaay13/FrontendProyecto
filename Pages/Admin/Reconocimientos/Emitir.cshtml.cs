@@ -10,11 +10,10 @@ namespace FrontendProyecto.Pages.Admin.Reconocimientos
     public class EmitirModel : PageModel
     {
         private readonly HttpClient _http;
-        private const int UMBRAL_ASISTENCIA = 70;
 
         public EmitirModel(IHttpClientFactory httpFactory)
         {
-            _http = httpFactory.CreateClient("API");
+            _http = httpFactory.CreateClient("API"); // Asegúrate que apunte al puerto del backend
         }
 
         [BindProperty(SupportsGet = true)]
@@ -37,19 +36,25 @@ namespace FrontendProyecto.Pages.Admin.Reconocimientos
             // 1) Traer inscripciones del usuario
             var inscripciones = await BuscarInscripcionesDeUsuario(UsuarioId.Value);
 
-            // 2) Calcular asistencia por inscripción
-            foreach (var i in inscripciones)
+            // 2) Calcular estado de asistencia por inscripción (usando /api/Asistencias/estado/{id})
+            var tareas = inscripciones.Select(async i =>
             {
-                var asistencias = await BuscarAsistenciasPorInscripcion(i.IdInscripcion);
+                var estado = await BuscarEstadoAsistencia(i.IdInscripcion);
 
-                var total = asistencias.Count;
-                var presentes = asistencias.Count(a => a.Asistio);
-                var porcentaje = total == 0 ? 0 : (int)Math.Round(presentes * 100.0 / total);
+                // Seguridad por si el backend aún no tiene el endpoint o no encuentra datos
+                int diasRequeridos = estado?.Rango.DiasRequeridos ?? 0;
+                int diasRegistrados = estado?.DiasRegistrados?.Count ?? 0;
+                bool completado = estado?.Completado ?? false;
 
-                var elegibleCert = i.EstadoInscripcion == "Confirmada"
-                                   && i.FechaActividad.Date <= DateTime.UtcNow.Date
-                                   && porcentaje >= UMBRAL_ASISTENCIA
-                                   && !i.YaTieneCertificado;
+                // Elegibilidad de certificado:
+                // - Inscripción confirmada
+                // - La actividad ya ocurrió (hoy >= fecha actividad)
+                // - Estado.Completado == true
+                // - No tiene certificado emitido aún
+                bool elegibleCert = i.EstadoInscripcion == "Confirmada"
+                                    && DateTime.Today >= i.FechaActividad.Date
+                                    && completado
+                                    && !i.YaTieneCertificado;
 
                 InscripcionesVM.Add(new InscripcionVm
                 {
@@ -59,12 +64,14 @@ namespace FrontendProyecto.Pages.Admin.Reconocimientos
                     FechaActividad = i.FechaActividad,
                     Lugar = i.Lugar,
                     EstadoInscripcion = i.EstadoInscripcion,
-                    TotalAsistencias = total,
-                    Presentes = presentes,
-                    Porcentaje = porcentaje,
+                    DiasRequeridos = diasRequeridos,
+                    DiasRegistrados = diasRegistrados,
+                    Completado = completado,
                     ElegibleCertificado = elegibleCert
                 });
-            }
+            });
+
+            await Task.WhenAll(tareas);
 
             // 3) Elegibilidad carnet simplificada (backend valida igual)
             if (inscripciones.Any(x => x.EstadoInscripcion == "Confirmada"))
@@ -125,20 +132,75 @@ namespace FrontendProyecto.Pages.Admin.Reconocimientos
             catch { return new(); }
         }
 
-        private async Task<List<AsistenciaDto>> BuscarAsistenciasPorInscripcion(int idInscripcion)
+        // NUEVO: consulta al endpoint de estado (evita GetFromJsonAsync directo para no explotar con 404)
+        private async Task<EstadoAsistenciaDto?> BuscarEstadoAsistencia(int idInscripcion)
         {
             try
             {
-                return await _http.GetFromJsonAsync<List<AsistenciaDto>>($"/api/Asistencias/por-inscripcion/{idInscripcion}") ?? new();
+                var resp = await _http.GetAsync($"/api/Asistencias/estado/{idInscripcion}");
+                if (!resp.IsSuccessStatusCode) return null;
+                return await resp.Content.ReadFromJsonAsync<EstadoAsistenciaDto>();
             }
-            catch { return new(); }
+            catch { return null; }
         }
 
         // ---------- DTOs ----------
-        public class UsuarioDto { public int IdUsuario { get; set; } public string Nombre { get; set; } = ""; public string Apellido { get; set; } = ""; public string CorreoUsuario { get; set; } = ""; }
-        public class OngDto { public int IdOng { get; set; } public string NombreOng { get; set; } = ""; }
-        public class InscripcionDto { public int IdInscripcion { get; set; } public int IdActividad { get; set; } public string NombreActividad { get; set; } = ""; public DateTime FechaActividad { get; set; } public string? Lugar { get; set; } public string EstadoInscripcion { get; set; } = ""; public bool YaTieneCertificado { get; set; } = false; }
-        public class AsistenciaDto { public int IdAsistencia { get; set; } public bool Asistio { get; set; } public string? Observacion { get; set; } public DateTime HoraResgistro { get; set; } }
-        public class InscripcionVm { public int IdInscripcion { get; set; } public int IdActividad { get; set; } public string NombreActividad { get; set; } = ""; public DateTime FechaActividad { get; set; } public string? Lugar { get; set; } public string EstadoInscripcion { get; set; } = ""; public int TotalAsistencias { get; set; } public int Presentes { get; set; } public int Porcentaje { get; set; } public bool ElegibleCertificado { get; set; } }
+        public class UsuarioDto
+        {
+            public int IdUsuario { get; set; }
+            public string Nombre { get; set; } = "";
+            public string Apellido { get; set; } = "";
+            public string CorreoUsuario { get; set; } = "";
+        }
+
+        public class OngDto
+        {
+            public int IdOng { get; set; }
+            public string NombreOng { get; set; } = "";
+        }
+
+        public class InscripcionDto
+        {
+            public int IdInscripcion { get; set; }
+            public int IdActividad { get; set; }
+            public string NombreActividad { get; set; } = "";
+            public DateTime FechaActividad { get; set; }
+            public string? Lugar { get; set; }
+            public string EstadoInscripcion { get; set; } = "";
+            public bool YaTieneCertificado { get; set; } = false;
+        }
+
+        // Estado devuelto por /api/Asistencias/estado/{id}
+        public class EstadoAsistenciaDto
+        {
+            public RangoDto Rango { get; set; } = new();
+            public List<DateTime> DiasRegistrados { get; set; } = new();
+            public List<DateTime> DiasPendientes { get; set; } = new();
+            public bool Completado { get; set; }
+        }
+        public class RangoDto
+        {
+            public DateTime Inicio { get; set; }
+            public DateTime Fin { get; set; }
+            public int DiasRequeridos { get; set; }
+        }
+
+        public class InscripcionVm
+        {
+            public int IdInscripcion { get; set; }
+            public int IdActividad { get; set; }
+            public string NombreActividad { get; set; } = "";
+            public DateTime FechaActividad { get; set; }
+            public string? Lugar { get; set; }
+            public string EstadoInscripcion { get; set; } = "";
+
+            // Progreso (desde /estado)
+            public int DiasRequeridos { get; set; }
+            public int DiasRegistrados { get; set; }
+            public bool Completado { get; set; }
+
+            // Elegibilidad
+            public bool ElegibleCertificado { get; set; }
+        }
     }
 }

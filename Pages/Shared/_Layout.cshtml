@@ -88,7 +88,6 @@
                             <li class="nav-item"><a class="nav-link" asp-page="/Index">Inicio</a></li>
                             <li class="nav-item"><a class="nav-link" asp-page="/Proyectos/Index">Proyectos</a></li>
                             <li class="nav-item"><a class="nav-link" asp-page="/Actividades/Index">Actividades</a></li>
-                            <li class="nav-item"><a class="nav-link" asp-page="/Verificar/Index">Verificar</a></li>
                             <li class="nav-item ms-lg-2"><a class="btn btn-outline-light btn-sm" asp-page="/Login/Index">Iniciar sesión</a></li>
                             <li class="nav-item ms-2"><a class="btn btn-primary btn-sm" asp-page="/Login/Register">Registrarse</a></li>
                         }
@@ -105,7 +104,6 @@
                                 <li class="nav-item">
                                     <a class="nav-link" asp-page="/Admin/Reconocimientos/Emitir">Emitir Reconocimientos</a>
                                 </li>
-                                <li class="nav-item"><a class="nav-link" asp-page="/Admin/Reportes/Index">Reportes</a></li>
                                 <li class="nav-item"><a class="nav-link" asp-page="/Admin/Configuracion/Index">Configuración</a></li>
                             }
                             @* COORDINADOR *@
@@ -114,8 +112,6 @@
                                 <li class="nav-item"><a class="nav-link" asp-page="/Coordinador/Panel">Panel</a></li>
                                 <li class="nav-item"><a class="nav-link" asp-page="/Coordinador/Proyectos/Index">Mis Proyectos</a></li>
                                 <li class="nav-item"><a class="nav-link" asp-page="/Coordinador/Actividades/Index">Actividades</a></li>
-                                <li class="nav-item"><a class="nav-link" asp-page="/Coordinador/Emision/Index">Emisión</a></li>
-                                <li class="nav-item"><a class="nav-link" asp-page="/Coordinador/Reportes/Index">Reportes</a></li>
                             }
                             @* VOLUNTARIO *@
                             else if (User.IsInRole("Voluntario"))

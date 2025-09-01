@@ -3,7 +3,8 @@
 @{
     ViewData["Title"] = "Asistencias";
 }
-<h4>Asistencias — @Model.NombreActividad</h4>
+
+<h4 class="mb-3">Asistencias — @Model.NombreActividad</h4>
 
 @if (TempData["ok"] is string ok)
 {
@@ -15,35 +16,126 @@
 }
 
 <div class="table-responsive">
-    <table class="table table-striped">
+    <table class="table table-admin align-middle mb-0">
         <thead>
-            <tr><th>Usuario</th><th>Estado insc.</th><th>Marcar</th></tr>
+            <tr>
+                <th>Usuario</th>
+                <th>Estado insc.</th>
+                <th>Rango</th>
+                <th style="width:260px">Progreso</th>
+                <th>Completado</th>
+                <th class="text-end">Acción</th>
+            </tr>
         </thead>
         <tbody>
             @if (Model.Inscritos.Count == 0)
             {
-                <tr><td colspan="3" class="text-center py-3">Sin inscritos confirmados</td></tr>
+                <tr>
+                    <td colspan="6" class="text-center py-3">Sin inscritos confirmados</td>
+                </tr>
             }
             else
             {
-                @foreach (var i in Model.Inscritos)
+                @foreach (var ins in Model.Inscritos)
                 {
+                    var tieneEstado = ins.EstadoAsistencia is not null;
+                    var diasReg = tieneEstado ? ins.EstadoAsistencia!.DiasRegistrados.Count : 0;
+                    var diasReq = tieneEstado ? ins.EstadoAsistencia!.Rango.DiasRequeridos : 0;
+                    var pct = (tieneEstado && diasReq > 0)
+                    ? (int)Math.Round(100.0 * diasReg / diasReq)
+                    : 0;
+
                     <tr>
-                        <td>@i.NombreUsuario</td>
-                        <td>@i.EstadoInscripcion</td>
-                        <td class="text-nowrap">
-                            <form method="post" asp-page-handler="Marcar" class="d-inline">
-                                <input type="hidden" name="idInscripcion" value="@i.IdInscripcion" />
-                                <input type="hidden" name="asistio" value="true" />
-                                <button class="btn btn-success btn-sm">Presente</button>
-                            </form>
-                            <form method="post" asp-page-handler="Marcar" class="d-inline ms-1">
-                                <input type="hidden" name="idInscripcion" value="@i.IdInscripcion" />
-                                <input type="hidden" name="asistio" value="false" />
-                                <button class="btn btn-outline-secondary btn-sm">Falta</button>
+                        <td>
+                            <strong>@ins.NombreUsuario</strong>
+                        </td>
+
+                        <td>@ins.EstadoInscripcion</td>
+
+                        <td>
+                            @if (tieneEstado)
+                            {
+                                <small>
+                                    @ins.EstadoAsistencia!.Rango.Inicio.ToString("dd/MM/yyyy")
+                                    –
+                                    @ins.EstadoAsistencia!.Rango.Fin.ToString("dd/MM/yyyy")
+                                </small>
+                            }
+                            else
+                            {
+                                <small class="text-muted">—</small>
+                            }
+                        </td>
+
+                        <td>
+                            @if (tieneEstado)
+                            {
+                                <div class="d-flex align-items-center gap-2">
+                                    <div class="progress flex-grow-1" style="height:10px;">
+                                        <div class="progress-bar bg-success" role="progressbar"
+                                             style="width:@pct%;" aria-valuenow="@pct" aria-valuemin="0" aria-valuemax="100">
+                                        </div>
+                                    </div>
+                                    <span class="badge bg-info text-dark"
+                                          title="Días registrados / requeridos">
+                                        @diasReg / @diasReq
+                                    </span>
+                                </div>
+                            }
+                            else
+                            {
+                                <span class="badge bg-secondary">—</span>
+                            }
+                        </td>
+
+                        <td>
+                            @if (ins.EstadoAsistencia?.Completado == true)
+                            {
+                                <span class="badge bg-success">✔️ Sí</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-secondary">❌ No</span>
+                            }
+                        </td>
+
+                        <td class="text-end">
+                            <form method="post"
+                                  asp-page-handler="Marcar"
+                                  asp-route-idActividad="@Model.IdActividad"
+                                  class="d-inline-flex gap-2 align-items-center">
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="idInscripcion" value="@ins.IdInscripcion" />
+                                <label class="visually-hidden" for="obs-@ins.IdInscripcion">Observación</label>
+                                <input id="obs-@ins.IdInscripcion" type="text" name="observacion"
+                                       class="form-control form-control-sm"
+                                       placeholder="Obs. (opcional)" style="width:220px" />
+                                <button type="submit" class="btn btn-primary btn-sm"
+                                        aria-label="Registrar asistencia hoy"
+                                        @(ins.BotonDeshabilitadoHoy ? "disabled" : null)>
+                                    Registrar hoy
+                                </button>
                             </form>
                         </td>
                     </tr>
+
+                    @* Fila expandible para fechas pendientes *@
+                    @if (tieneEstado && ins.EstadoAsistencia!.DiasPendientes.Count > 0)
+                    {
+                        <tr class="table-light">
+                            <td colspan="6">
+                                <details>
+                                    <summary class="mb-2">Fechas pendientes</summary>
+                                    <ul class="mb-0">
+                                        @foreach (var d in ins.EstadoAsistencia!.DiasPendientes)
+                                        {
+                                            <li>@d.ToString("dd/MM/yyyy")</li>
+                                        }
+                                    </ul>
+                                </details>
+                            </td>
+                        </tr>
+                    }
                 }
             }
         </tbody>

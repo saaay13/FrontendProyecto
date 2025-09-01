@@ -2,17 +2,29 @@
 @model FrontendProyecto.Pages.Admin.Actividades.EditModel
 @{
     ViewData["Title"] = "Editar actividad";
+    var routeId = (int?)RouteData.Values["id"];
 }
+
 <h2 class="mb-3">Editar actividad</h2>
 
-<form method="post" class="card p-3 shadow-sm">
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+<form method="post" asp-route-id="@routeId">
+    @Html.AntiForgeryToken()
 
-    <partial name="Partials/_Form" model="Model.Form" />
+    <div class="card-admin">
+        <div class="card-header">Datos de la Actividad</div>
+        <div class="card-body">
 
-    <div class="d-flex gap-2">
-        <button type="submit" class="btn btn-primary">Guardar cambios</button>
-        <a asp-page="Index" class="btn btn-outline-secondary">Cancelar</a>
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+            <!-- Reutiliza tu partial -->
+            <partial name="Partials/_Form" model="Model.Form" />
+
+            <div class="d-flex justify-content-end gap-2 mt-3">
+                <a asp-page="Index" class="btn btn-admin-outline">Cancelar</a>
+                <button type="submit" class="btn btn-primary">Guardar cambios</button>
+            </div>
+
+        </div>
     </div>
 </form>
 
