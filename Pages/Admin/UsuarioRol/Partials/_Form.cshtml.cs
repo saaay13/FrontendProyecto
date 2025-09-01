@@ -8,7 +8,6 @@ namespace FrontendProyecto.Pages.Admin.UsuarioRol
         public List<UsuarioItem> Usuarios { get; set; } = new();
         public List<RolItem> Roles { get; set; } = new();
 
-        // Para reutilizar el partial en Edit (bloquear cambio de usuario)
         public bool ReadOnlyUsuario { get; set; } = false;
     }
 

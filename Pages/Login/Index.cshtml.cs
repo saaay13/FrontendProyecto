@@ -48,10 +48,10 @@ namespace FrontendProyecto.Pages.Login
             var doc = JsonDocument.Parse(json);
             var token = doc.RootElement.GetProperty("token").GetString();
 
-            // 1) Guardar JWT en Session (para HttpClient -> Authorization: Bearer ...)
+            
             HttpContext.Session.SetString("JWT", token!);
 
-            // 2) Crear cookie de autenticación con claims del JWT (roles incluidos)
+           
             var jwt = new JwtSecurityTokenHandler().ReadJwtToken(token);
             var identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
 
@@ -70,11 +70,11 @@ namespace FrontendProyecto.Pages.Login
                 new AuthenticationProperties { IsPersistent = true, ExpiresUtc = DateTimeOffset.UtcNow.AddHours(2) }
             );
 
-            // Redirección
+           
             if (!string.IsNullOrEmpty(ReturnUrl) && Url.IsLocalUrl(ReturnUrl))
                 return LocalRedirect(ReturnUrl);
 
-            // Si el token tiene Admin, al panel admin; si es coord, al de coord; si no, al de voluntario
+            
             if (roles.Contains("Administrador")) return RedirectToPage("/Admin/Panel");
             if (roles.Contains("Coordinador")) return RedirectToPage("/Coordinador/Panel");
             return RedirectToPage("/Voluntario/Panel");

@@ -30,9 +30,6 @@ namespace FrontendProyecto.Pages.Admin.Actividades
             Fecha = dto.FechaActividad;
             Inicio = dto.HoraInicio;
             Fin = dto.HoraFin;
-
-            // Si tu detalle no trae nombre de proyecto, puedes omitirlo o traerlo aparte
-            // Aquí intento obtener el nombre del proyecto:
             var proys = await _http.GetFromJsonAsync<List<ProyectoItem>>("/api/Proyectos") ?? new();
             ProyectoNombre = proys.FirstOrDefault(p => p.IdProyecto == dto.IdProyecto)?.NombreProyecto;
 

@@ -31,27 +31,32 @@ html {
 }
 
 /* -------------------- Layout (sticky footer con flex) -------------------- */
+/* Forzar sticky footer */
 html, body {
-    height: 100%;
+    height: 100% !important;
 }
 
 body {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    background: #fff;
+    display: flex !important;
+    flex-direction: column !important;
+    min-height: 100vh !important;
 }
 
-/* El contenedor principal crece para empujar el footer hacia abajo.
-   (Si en el layout usas Bootstrap, también puedes poner class="flex-grow-1" en el container) */
-.container.flex-fill {
-    flex: 1 0 auto;
-}
-
+.container.flex-fill,
 main[role="main"] {
-    padding: 2rem 0 3rem;
-    background: linear-gradient(180deg, #f8fafc 0%, #ffffff 40%);
+    flex: 1 0 auto !important; /* empuja el footer hacia abajo */
 }
+
+.footer {
+    margin-top: auto !important; /* fuerza al fondo */
+    flex-shrink: 0 !important;
+    background: linear-gradient(90deg, var(--c2), var(--c1)) !important;
+    color: var(--text-on-dark) !important;
+    padding: 1rem 0 !important;
+    box-shadow: 0 -6px 18px rgba(0,0,0,.08) !important;
+}
+
+
 
 /* Quitar viejos patrones de sticky footer (NO usar):
    html { position:relative; min-height:100% }  y  body { margin-bottom:60px } */
@@ -173,3 +178,14 @@ a {
     border-radius: 999px;
     font-weight: 600;
 }
+/* Forzar scroll horizontal en tablas anchas */
+.table-responsive {
+    width: 100% !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch;
+}
+
+    .table-responsive > table {
+        min-width: 900px; /* o el ancho mínimo que necesites */
+        white-space: nowrap; /* evita que el texto haga salto de línea forzado */
+    }

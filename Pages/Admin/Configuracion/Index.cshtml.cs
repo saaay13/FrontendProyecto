@@ -10,7 +10,7 @@ public class AdminConfiguracionIndexModel : PageModel
 
     public async Task OnGet()
     {
-        // Tu endpoint actual: GET api/Rol
+       
         Roles = await _http.GetFromJsonAsync<List<RolDto>>("api/Rol") ?? new();
     }
 

@@ -13,7 +13,7 @@ public class AdminReconocimientosEditCModel : PageModel
 
     public async Task<IActionResult> OnGet(int id)
     {
-        // No tienes GET by id; traemos todos y buscamos
+      
         var data = await _http.GetFromJsonAsync<List<CarnetDto>>("api/Carnets") ?? new();
         var k = data.FirstOrDefault(x => x.IdCarnet == id);
         if (k is null) return NotFound();
@@ -41,7 +41,6 @@ public class AdminReconocimientosEditCModel : PageModel
             return Page();
         }
 
-        // Asumimos existencia de PUT api/Carnets/{id}
         var payload = new
         {
             IdCarnet = Input.IdCarnet,
@@ -51,7 +50,7 @@ public class AdminReconocimientosEditCModel : PageModel
             FechaVencimiento = Input.FechaVencimiento,
             Beneficios = Input.Beneficios,
             CodigoVerificacion = Input.CodigoVerificacion
-            // EstadoInscripcion: lo mantiene backend
+           
         };
 
         var resp = await _http.PutAsJsonAsync($"api/Carnets/{Input.IdCarnet}", payload);
@@ -76,7 +75,7 @@ public class AdminReconocimientosEditCModel : PageModel
             .ToList();
     }
 
-    // DTOs para deserializar api/Carnets
+    // DTOs 
     public class CarnetDto
     {
         public int IdCarnet { get; set; }

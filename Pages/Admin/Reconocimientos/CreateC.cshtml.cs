@@ -24,7 +24,7 @@ public class AdminReconocimientosCreateCModel : PageModel
             return Page();
         }
 
-        // El backend requiere CodigoVerificacion (Required) y valida usuario/ong
+      
         var payload = new
         {
             IdUsuario = Input.IdUsuario,
@@ -32,8 +32,7 @@ public class AdminReconocimientosCreateCModel : PageModel
             FechaEmision = Input.FechaEmision,
             FechaVencimiento = Input.FechaVencimiento,
             Beneficios = Input.Beneficios,
-            CodigoVerificacion = Input.CodigoVerificacion, // Guid generado en el input
-            // EstadoInscripcion: omitimos para usar default (Activo) en el backend
+            CodigoVerificacion = Input.CodigoVerificacion,
         };
 
         var resp = await _http.PostAsJsonAsync("api/Carnets", payload);

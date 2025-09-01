@@ -1,6 +1,80 @@
 ﻿@page
-@model ProyectosIndexModel
+@model FrontendProyecto.Pages.Admin.Proyectos.IndexModel
 @{
     ViewData["Title"] = "Proyectos";
 }
-<div class="container"><h2>@ViewData["Title"]</h2><p>Listado público de proyectos.</p></div>
+
+<h2 class="mb-3">Proyectos</h2>
+
+<div class="table-responsive">
+    <table class="table table-striped align-middle">
+        <thead>
+            <tr>
+                <th>Proyecto</th>
+                <th class="text-nowrap">Fecha inicio</th>
+                <th class="text-nowrap">Fecha fin</th>
+                <th>Estado</th>
+                <th>ONG</th>
+                <th class="text-end" style="width:240px;">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.Lista is null || !Model.Lista.Any())
+            {
+                <tr>
+                    <td colspan="6" class="text-center py-3">No hay proyectos.</td>
+                </tr>
+            }
+            else
+            {
+                @foreach (var p in Model.Lista)
+                {
+                    <tr>
+                        <td>
+                            <div class="fw-semibold">@p.NombreProyecto</div>
+                            @if (!string.IsNullOrWhiteSpace(p.Descripcion))
+                            {
+                                <div class="small text-muted">@p.Descripcion</div>
+                            }
+                            <div class="text-muted small">ID: @p.IdProyecto</div>
+                        </td>
+
+                        <td class="text-nowrap">@p.FechaInicio.ToString("dd/MM/yyyy")</td>
+                        <td class="text-nowrap">@p.FechaFin.ToString("dd/MM/yyyy")</td>
+
+                        <td>
+                            @{
+                                var estado = p.EstadoProyecto?.ToString() ?? "";
+                                var (badgeClass, badgeText) = estado switch
+                                {
+                                    "Activo" => ("text-success", "Activo"),
+                                    "Finalizado" => ("text-success", "Finalizado"),
+                                    "Cancelado" => ("text-danger", "Cancelado"),
+                                    _ => ("text-muted", estado)
+                                };
+                            }
+                            <span class="@badgeClass">@badgeText</span>
+                        </td>
+
+                        <td>
+                            @* Reemplaza por el nombre de la ONG cuando lo tengas en el DTO *@
+                            <span class="text-muted">ONG #@p.IdOng</span>
+                        </td>
+
+                        <td class="text-end text-nowrap">
+                            <div class="btn-group">
+                                <a class="btn btn-sm btn-outline-secondary"
+                                   asp-page="/Actividades/Index"
+                                   asp-route-proyectoId="@p.IdProyecto">
+                                    Actividades
+                                </a>
+
+                               
+                            </div>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>

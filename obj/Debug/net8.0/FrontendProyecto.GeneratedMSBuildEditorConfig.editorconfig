@@ -156,6 +156,18 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWRtaW5cVXN1YXJpb1JvbFxQYXNzd29yZC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/77174/OneDrive/Escritorio/HOY/BackendProyecto/FrontendProyecto/Pages/Coordinador/Actividades/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29vcmRpbmFkb3JcQWN0aXZpZGFkZXNcQ3JlYXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/77174/OneDrive/Escritorio/HOY/BackendProyecto/FrontendProyecto/Pages/Coordinador/Actividades/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29vcmRpbmFkb3JcQWN0aXZpZGFkZXNcRGVsZXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/77174/OneDrive/Escritorio/HOY/BackendProyecto/FrontendProyecto/Pages/Coordinador/Actividades/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29vcmRpbmFkb3JcQWN0aXZpZGFkZXNcRWRpdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/77174/OneDrive/Escritorio/HOY/BackendProyecto/FrontendProyecto/Pages/Coordinador/Actividades/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29vcmRpbmFkb3JcQWN0aXZpZGFkZXNcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
@@ -216,12 +228,12 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/77174/OneDrive/Escritorio/HOY/BackendProyecto/FrontendProyecto/Pages/Voluntario/Asistencias.cshtml]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVm9sdW50YXJpb1xBc2lzdGVuY2lhcy5jc2h0bWw=
+[C:/Users/77174/OneDrive/Escritorio/HOY/BackendProyecto/FrontendProyecto/Pages/Voluntario/Actividades.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVm9sdW50YXJpb1xBY3RpdmlkYWRlcy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/77174/OneDrive/Escritorio/HOY/BackendProyecto/FrontendProyecto/Pages/Voluntario/MisActividades.cshtml]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVm9sdW50YXJpb1xNaXNBY3RpdmlkYWRlcy5jc2h0bWw=
+[C:/Users/77174/OneDrive/Escritorio/HOY/BackendProyecto/FrontendProyecto/Pages/Voluntario/Asistencias.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVm9sdW50YXJpb1xBc2lzdGVuY2lhcy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/77174/OneDrive/Escritorio/HOY/BackendProyecto/FrontendProyecto/Pages/Voluntario/Panel.cshtml]

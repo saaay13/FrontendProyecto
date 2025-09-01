@@ -1,16 +1,15 @@
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc;
 
 namespace FrontendProyecto.Pages.Coordinador.Actividades
 {
     [Authorize(Roles = "Coordinador,Administrador")]
-    public class IndexModel : PageModel
+    public class CoordinadorActividadesDeleteAliasModel : PageModel
     {
-        public IActionResult OnGet()
+        public IActionResult OnGet(int? id)
         {
-            // preserva querystring ?proyectoId=...
-            var url = Url.Page("/Admin/Actividades/Index") + Request.QueryString.Value;
+            var url = Url.Page("/Admin/Actividades/Delete", new { id }) + Request.QueryString.Value;
             return Redirect(url);
         }
     }

@@ -1,14 +1,19 @@
-﻿
-@page
-@model FrontendProyecto.Pages.Admin.Actividades.IndexModel
-
+﻿@page
+@model FrontendProyecto.Pages.Voluntario.Actividades.IndexModel
 @{
     ViewData["Title"] = "Actividades";
 }
 
 <h2 class="mb-3">Actividades</h2>
 
-<a asp-page="Create" class="btn btn-primary mb-3">Nueva actividad</a>
+@if (TempData["ok"] is string ok)
+{
+    <div class="alert alert-success">@ok</div>
+}
+@if (TempData["err"] is string err)
+{
+    <div class="alert alert-danger">@err</div>
+}
 
 <div class="table-responsive">
     <table class="table table-striped align-middle">
@@ -21,16 +26,14 @@
                 <th>Lugar</th>
                 <th>Cupo</th>
                 <th>Estado</th>
-                <th class="text-end" style="width:280px;">Acciones</th>
+                <th class="text-end" style="width:220px;">Acciones</th>
             </tr>
         </thead>
         <tbody>
             @if (Model.Lista is null || Model.Lista.Count == 0)
             {
                 <tr>
-                    <td colspan="8" class="text-center py-4 text-muted">
-                        No hay actividades registradas
-                    </td>
+                    <td colspan="8" class="text-center py-4 text-muted">No hay actividades registradas</td>
                 </tr>
             }
             else
@@ -38,7 +41,7 @@
                 @foreach (var a in Model.Lista)
                 {
                     <tr>
-                        <td>@a.NombreProyecto</td>
+                        <td>@(a.NombreProyecto ?? "-")</td>
                         <td class="fw-semibold">@a.NombreActividad</td>
                         <td class="text-nowrap">@a.FechaActividad.ToString("dd/MM/yyyy")</td>
                         <td class="text-nowrap">@a.HoraInicio.ToString(@"hh\:mm") - @a.HoraFin.ToString(@"hh\:mm")</td>
@@ -51,29 +54,21 @@
                                 {
                                     "EnCurso" => ("badge bg-success", "En curso"),
                                     "Planificada" => ("badge bg-primary", "Planificada"),
-                                    "Finalizada" => ("badge bg-secondary", "Finalizada"),
+                                    "Completada" => ("badge bg-secondary", "Completada"),
                                     "Cancelada" => ("badge bg-danger", "Cancelada"),
                                     _ => ("badge bg-light text-dark", est)
                                 };
                             }
                             <span class="@badgeCls">@badgeTxt</span>
                         </td>
-                        <td class="text-end text-nowrap">
-                            <div class="btn-group">
-                                <a asp-page="Edit" asp-route-id="@a.IdActividad"
-                                   class="btn btn-sm btn-outline-secondary">Editar</a>
-
-                                <a asp-page="Delete" asp-route-id="@a.IdActividad"
-                                   class="btn btn-sm btn-outline-danger">Eliminar</a>
-
-                                <a asp-page="/Admin/Actividades/Inscribir"
-                                   asp-route-idActividad="@a.IdActividad"
-                                   class="btn btn-sm btn-outline-primary">Inscribir</a>
-
-                                <a asp-page="/Admin/Actividades/Asistencias"
-                                   asp-route-idActividad="@a.IdActividad"
-                                   class="btn btn-sm btn-outline-primary">Asistencias</a>
-                            </div>
+                        <td class="text-end">
+                            @if (est == "Planificada" || est == "EnCurso")
+                            {
+                                <form method="post" asp-page-handler="Inscribir" class="d-inline">
+                                    <input type="hidden" name="idActividad" value="@a.IdActividad" />
+                                    <button type="submit" class="btn btn-sm btn-outline-primary">Inscribir</button>
+                                </form>
+                            }
                         </td>
                     </tr>
                 }

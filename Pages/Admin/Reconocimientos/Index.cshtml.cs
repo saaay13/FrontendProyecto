@@ -7,7 +7,7 @@ public class AdminReconocimientosIndexModel : PageModel
     private readonly HttpClient _http;
     public AdminReconocimientosIndexModel(IHttpClientFactory factory) => _http = factory.CreateClient("API");
 
-    // Lo que vamos a mostrar en tablas
+   
     public List<CertificadoVm> Certificados { get; set; } = new();
     public List<CarnetVm> Carnets { get; set; } = new();
 
@@ -37,7 +37,7 @@ public class AdminReconocimientosIndexModel : PageModel
 
     private async Task CargarCertificados()
     {
-        // Tu controlador GET /api/Certificados incluye Usuario, Actividad->Proyecto->(Responsable,Ong)
+        
         var data = await _http.GetFromJsonAsync<List<CertificadoDto>>("api/Certificados") ?? new();
         Certificados = data.Select(c => new CertificadoVm
         {
@@ -53,7 +53,7 @@ public class AdminReconocimientosIndexModel : PageModel
 
     private async Task CargarCarnets()
     {
-        // Tu controlador GET /api/Carnets incluye Usuario y Ong
+    
         var data = await _http.GetFromJsonAsync<List<CarnetDto>>("api/Carnets") ?? new();
         Carnets = data.Select(k => new CarnetVm
         {
@@ -67,7 +67,7 @@ public class AdminReconocimientosIndexModel : PageModel
         }).ToList();
     }
 
-    // ====== DTOs para deserializar lo que devuelve tu API ======
+    // ====== DTOs 
     public class CertificadoDto
     {
         public int IdCertificado { get; set; }

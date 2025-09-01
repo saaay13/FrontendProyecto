@@ -66,7 +66,6 @@ namespace FrontendProyecto.Pages.Admin.Actividades
             public string NombreUsuario { get; set; } = "";
             public string EstadoInscripcion { get; set; } = "";
 
-            // UI helpers (no vienen del backend de inscripciones)
             public EstadoAsistenciaDto? EstadoAsistencia { get; set; }
             public bool BotonDeshabilitadoHoy { get; set; }
         }

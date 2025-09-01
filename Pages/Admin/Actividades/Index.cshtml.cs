@@ -14,7 +14,7 @@ namespace FrontendProyecto.Pages.Admin.Actividades
 
         public async Task OnGetAsync()
         {
-            // Espera que la API devuelva Proyecto.NombreProyecto embebido o un DTO similar
+       
             Lista = await _http.GetFromJsonAsync<List<ActividadListDto>>("/api/Actividades")
                 ?? new List<ActividadListDto>();
         }

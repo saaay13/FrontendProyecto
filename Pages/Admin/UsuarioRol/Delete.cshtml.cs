@@ -18,7 +18,7 @@ namespace FrontendProyecto.Pages.Admin.UsuarioRol
 
         public async Task<IActionResult> OnGetAsync()
         {
-            // Si tienes rutas espejo, puedes usar /api/Usuario/{IdUsuario}
+            
             var usuario = await _http.GetFromJsonAsync<UsuarioReadDto>($"/api/Usuarios/{IdUsuario}");
             if (usuario is null)
             {

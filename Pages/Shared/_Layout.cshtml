@@ -110,15 +110,14 @@
                             else if (User.IsInRole("Coordinador"))
                             {
                                 <li class="nav-item"><a class="nav-link" asp-page="/Coordinador/Panel">Panel</a></li>
-                                <li class="nav-item"><a class="nav-link" asp-page="/Coordinador/Proyectos/Index">Mis Proyectos</a></li>
+                                <li class="nav-item"><a class="nav-link" asp-page="/Coordinador/Proyectos/Index">Proyectos</a></li>
                                 <li class="nav-item"><a class="nav-link" asp-page="/Coordinador/Actividades/Index">Actividades</a></li>
                             }
                             @* VOLUNTARIO *@
                             else if (User.IsInRole("Voluntario"))
                             {
                                 <li class="nav-item"><a class="nav-link" asp-page="/Voluntario/Panel">Panel</a></li>
-                                <li class="nav-item"><a class="nav-link" asp-page="/Voluntario/MisActividades">Mis Actividades</a></li>
-                                <li class="nav-item"><a class="nav-link" asp-page="/Voluntario/Asistencias">Asistencias</a></li>
+                                <li class="nav-item"><a class="nav-link" asp-page="/Voluntario/Actividades">Mis Actividades</a></li>
                                 <li class="nav-item"><a class="nav-link" asp-page="/Voluntario/Reconocimientos">Reconocimientos</a></li>
                             }
 

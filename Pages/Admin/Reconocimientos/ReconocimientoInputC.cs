@@ -27,10 +27,10 @@ namespace FrontendProyecto.Pages.Admin.Reconocimientos
         [StringLength(500, ErrorMessage = "Máximo 500 caracteres")]
         public string Beneficios { get; set; } = string.Empty;
 
-        // En tu modelo es Required. Lo generamos al crear y lo mostramos en edición.
+      
         public Guid CodigoVerificacion { get; set; } = Guid.NewGuid();
 
-        // Opcional: mostrar estado (tu enum por defecto es Activo)
+    
         public string EstadoInscripcion { get; set; } = "Activo";
     }
 }

@@ -37,14 +37,14 @@ public class AdminReconocimientosEditModel : PageModel
             return Page();
         }
 
-        // Asumimos que implementas PUT api/Certificados/{id}
+       
         var payload = new
         {
             IdCertificado = Input.IdCertificado,
             IdUsuario = Input.IdUsuario,
             IdActividad = Input.IdActividad,
             FechaEmision = Input.FechaEmision
-            // CodigoVerificacion: si en backend lo mantienes/generas, no lo mandamos
+            
         };
 
         var resp = await _http.PutAsJsonAsync($"api/Certificados/{Input.IdCertificado}", payload);
@@ -69,7 +69,7 @@ public class AdminReconocimientosEditModel : PageModel
             .ToList();
     }
 
-    // DTOs para deserializar GET api/Certificados/{id} y combos
+    // DTOs 
     public class CertificadoDto
     {
         public int IdCertificado { get; set; }

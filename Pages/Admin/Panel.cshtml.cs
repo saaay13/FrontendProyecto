@@ -27,7 +27,6 @@ namespace FrontendProyecto.Pages.Admin
                 return;
             }
 
-            // 2) Cargar contadores (cada uno tolera 401/403)
             Usuarios = await CountAsync(client, "/api/Usuarios");         
             Ongs = await CountAsync(client, "/api/Ongs");          
             Proyectos = await CountAsync(client, "/api/Proyectos");    

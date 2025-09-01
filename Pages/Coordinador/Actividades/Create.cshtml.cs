@@ -1,16 +1,15 @@
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc;
 
 namespace FrontendProyecto.Pages.Coordinador.Actividades
 {
     [Authorize(Roles = "Coordinador,Administrador")]
-    public class IndexModel : PageModel
+    public class CoordinadorActividadesCreateAliasModel : PageModel
     {
         public IActionResult OnGet()
         {
-            // preserva querystring ?proyectoId=...
-            var url = Url.Page("/Admin/Actividades/Index") + Request.QueryString.Value;
+            var url = Url.Page("/Admin/Actividades/Create") + Request.QueryString.Value;
             return Redirect(url);
         }
     }

@@ -31,7 +31,7 @@ namespace FrontendProyecto.Pages.Admin.Actividades
                 return RedirectToPage("/Admin/Actividades/Index");
             }
 
-            // 1) Actividad
+         
             var respAct = await _http.GetAsync($"/api/Actividades/{IdActividad}");
             if (respAct.StatusCode == HttpStatusCode.NotFound)
             {
@@ -47,12 +47,11 @@ namespace FrontendProyecto.Pages.Admin.Actividades
             }
             NombreActividad = act.NombreActividad;
 
-            // 2) Usuarios
+         
             var usuarios = await _http.GetFromJsonAsync<List<UsuarioDto>>("/api/Usuarios") ?? new();
             UsuariosOptions = usuarios.Select(u =>
                 new SelectListItem($"{u.Nombre} {u.Apellido} ({u.CorreoUsuario})", u.IdUsuario.ToString())).ToList();
 
-            // 3) Inscripciones (usa tu endpoint real)
             var respInsc = await _http.GetAsync($"/api/Inscripciones/por-actividad/{IdActividad}");
             if (respInsc.IsSuccessStatusCode)
             {

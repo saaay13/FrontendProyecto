@@ -29,7 +29,7 @@ public class AdminReconocimientosCreateModel : PageModel
             IdUsuario = Input.IdUsuario,
             IdActividad = Input.IdActividad,
             FechaEmision = Input.FechaEmision
-            // CodigoVerificacion lo genera el backend
+           
         };
 
         var resp = await _http.PostAsJsonAsync("api/Certificados", payload);

@@ -13,7 +13,7 @@ namespace FrontendProyecto.Pages.Admin.Reconocimientos
 
         public EmitirModel(IHttpClientFactory httpFactory)
         {
-            _http = httpFactory.CreateClient("API"); // Asegúrate que apunte al puerto del backend
+            _http = httpFactory.CreateClient("API"); 
         }
 
         [BindProperty(SupportsGet = true)]
@@ -33,24 +33,20 @@ namespace FrontendProyecto.Pages.Admin.Reconocimientos
 
             if (UsuarioId is null || UsuarioId <= 0) return;
 
-            // 1) Traer inscripciones del usuario
+      
             var inscripciones = await BuscarInscripcionesDeUsuario(UsuarioId.Value);
 
-            // 2) Calcular estado de asistencia por inscripción (usando /api/Asistencias/estado/{id})
+         
             var tareas = inscripciones.Select(async i =>
             {
                 var estado = await BuscarEstadoAsistencia(i.IdInscripcion);
 
-                // Seguridad por si el backend aún no tiene el endpoint o no encuentra datos
+                
                 int diasRequeridos = estado?.Rango.DiasRequeridos ?? 0;
                 int diasRegistrados = estado?.DiasRegistrados?.Count ?? 0;
                 bool completado = estado?.Completado ?? false;
 
-                // Elegibilidad de certificado:
-                // - Inscripción confirmada
-                // - La actividad ya ocurrió (hoy >= fecha actividad)
-                // - Estado.Completado == true
-                // - No tiene certificado emitido aún
+               
                 bool elegibleCert = i.EstadoInscripcion == "Confirmada"
                                     && DateTime.Today >= i.FechaActividad.Date
                                     && completado
@@ -73,7 +69,7 @@ namespace FrontendProyecto.Pages.Admin.Reconocimientos
 
             await Task.WhenAll(tareas);
 
-            // 3) Elegibilidad carnet simplificada (backend valida igual)
+          
             if (inscripciones.Any(x => x.EstadoInscripcion == "Confirmada"))
             {
                 PuedeEmitirCarnet = true;

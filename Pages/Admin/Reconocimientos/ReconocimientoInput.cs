@@ -19,7 +19,7 @@ namespace FrontendProyecto.Pages.Admin.Reconocimientos
         [DataType(DataType.Date)]
         public DateTime FechaEmision { get; set; } = DateTime.Today;
 
-        // Solo lectura en edición (lo genera el backend)
+    
         public string? CodigoVerificacion { get; set; }
     }
 }
