@@ -6,75 +6,68 @@
 
 <h2 class="mb-3">Proyectos</h2>
 
-<div class="table-responsive">
-    <table class="table table-striped align-middle">
-        <thead>
-            <tr>
-                <th>Proyecto</th>
-                <th class="text-nowrap">Fecha inicio</th>
-                <th class="text-nowrap">Fecha fin</th>
-                <th>Estado</th>
-                <th>ONG</th>
-                <th class="text-end" style="width:240px;">Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            @if (Model.Lista is null || !Model.Lista.Any())
+@if (Model.Lista is null || !Model.Lista.Any())
+{
+    <div class="text-center text-muted py-5">
+        <img src="~/img/proyecto/empty.png" alt="Sin proyectos" style="max-width:220px;opacity:.8" />
+        <div class="mt-3">No hay proyectos registrados</div>
+    </div>
+}
+else
+{
+    <div class="row g-3">
+        @foreach (var p in Model.Lista)
+        {
+            var estado = p.EstadoProyecto?.ToString() ?? "";
+            var (badgeClass, badgeText) = estado switch
             {
-                <tr>
-                    <td colspan="6" class="text-center py-3">No hay proyectos.</td>
-                </tr>
-            }
-            else
-            {
-                @foreach (var p in Model.Lista)
-                {
-                    <tr>
-                        <td>
-                            <div class="fw-semibold">@p.NombreProyecto</div>
-                            @if (!string.IsNullOrWhiteSpace(p.Descripcion))
-                            {
-                                <div class="small text-muted">@p.Descripcion</div>
-                            }
-                            <div class="text-muted small">ID: @p.IdProyecto</div>
-                        </td>
+                "Activo" => ("bg-success text-white", "Activo"),
+                "Finalizado" => ("bg-secondary text-white", "Finalizado"),
+                "Cancelado" => ("bg-danger text-white", "Cancelado"),
+                _ => ("bg-light text-dark", estado)
+            };
 
-                        <td class="text-nowrap">@p.FechaInicio.ToString("dd/MM/yyyy")</td>
-                        <td class="text-nowrap">@p.FechaFin.ToString("dd/MM/yyyy")</td>
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="card h-100 shadow-sm border-0">
+                    <!-- Imagen del proyecto -->
+                    <div class="ratio ratio-16x9">
+                        <img src="@Url.Content($"~/img/proyecto/pt-{p.IdProyecto}.jpg")"
+                             onerror="this.onerror=null;this.src='@Url.Content("~/img/proyecto/default-proyecto.jpg")';"
+                             alt="@p.NombreProyecto"
+                             class="card-img-top object-fit-cover" />
+                    </div>
 
-                        <td>
-                            @{
-                                var estado = p.EstadoProyecto?.ToString() ?? "";
-                                var (badgeClass, badgeText) = estado switch
-                                {
-                                    "Activo" => ("text-success", "Activo"),
-                                    "Finalizado" => ("text-success", "Finalizado"),
-                                    "Cancelado" => ("text-danger", "Cancelado"),
-                                    _ => ("text-muted", estado)
-                                };
-                            }
-                            <span class="@badgeClass">@badgeText</span>
-                        </td>
+                    <div class="card-body d-flex flex-column">
+                        <!-- Estado -->
+                        <div class="d-flex justify-content-between align-items-start mb-2">
+                            <h5 class="card-title mb-0">@p.NombreProyecto</h5>
+                            <span class="badge @badgeClass">@badgeText</span>
+                        </div>
 
-                        <td>
-                            @* Reemplaza por el nombre de la ONG cuando lo tengas en el DTO *@
-                            <span class="text-muted">ONG #@p.IdOng</span>
-                        </td>
+                        <!-- Descripción -->
+                        @if (!string.IsNullOrWhiteSpace(p.Descripcion))
+                        {
+                            <p class="card-text text-muted small">@p.Descripcion</p>
+                        }
 
-                        <td class="text-end text-nowrap">
-                            <div class="btn-group">
-                                <a class="btn btn-sm btn-outline-secondary"
-                                   asp-page="/Actividades/Index"
-                                   asp-route-proyectoId="@p.IdProyecto">
-                                    Actividades
-                                </a>
+                        <ul class="list-unstyled small mb-3">
+                            <li><i class="bi bi-calendar-event me-1"></i> Inicio: @p.FechaInicio.ToString("dd/MM/yyyy")</li>
+                            <li><i class="bi bi-calendar-check me-1"></i> Fin: @p.FechaFin.ToString("dd/MM/yyyy")</li>
+                            <li><i class="bi bi-building me-1"></i> ONG #@p.IdOng</li>
+                            <li class="text-muted">ID: @p.IdProyecto</li>
+                        </ul>
 
-                               
-                            </div>
-                        </td>
-                    </tr>
-                }
-            }
-        </tbody>
-    </table>
-</div>
+                        <!-- Botones -->
+                        <div class="mt-auto text-end">
+                            <a class="btn btn-sm btn-outline-primary"
+                               asp-page="/Actividades/Index"
+                               asp-route-proyectoId="@p.IdProyecto">
+                                Ver actividades
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
