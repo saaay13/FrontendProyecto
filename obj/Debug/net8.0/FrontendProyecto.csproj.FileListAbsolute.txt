@@ -136,3 +136,4 @@ C:\Users\77174\OneDrive\Escritorio\HOY\BackendProyecto\FrontendProyecto\bin\Debu
 C:\Users\77174\OneDrive\Escritorio\HOY\BackendProyecto\FrontendProyecto\bin\Debug\net8.0\runtimes\win-x86\native\libwinpthread-1.dll
 C:\Users\77174\OneDrive\Escritorio\HOY\BackendProyecto\FrontendProyecto\bin\Debug\net8.0\runtimes\win-x86\native\qpdf.dll
 C:\Users\77174\OneDrive\Escritorio\HOY\BackendProyecto\FrontendProyecto\bin\Debug\net8.0\runtimes\win-x86\native\zlib1.dll
+C:\Users\77174\OneDrive\Escritorio\HOY\BackendProyecto\FrontendProyecto\bin\Debug\net8.0\BackendProyecto.staticwebassets.runtime.json

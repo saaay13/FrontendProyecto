@@ -1,0 +1,105 @@
+﻿@page
+@model FrontendProyecto.Pages.Voluntario.Reconocimientos.IndexModel
+@{
+    ViewData["Title"] = "Mis Reconocimientos";
+}
+
+<h2 class="mb-3">Mis carnets</h2>
+
+@if (Model.Carnets.Count == 0)
+{
+    <p><em>No tienes carnets emitidos.</em></p>
+}
+else
+{
+    <div class="table-responsive">
+        <table class="table table-sm align-middle">
+            <thead>
+                <tr>
+                    <th>ONG</th>
+                    <th>Emisión</th>
+                    <th>Vencimiento</th>
+                    <th style="width:180px;">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var k in Model.Carnets)
+                {
+                    <tr>
+                        <td>@k.OngNombre</td>
+                        <td>@k.FechaEmision.ToString("yyyy-MM-dd")</td>
+                        <td>@k.FechaVencimiento?.ToString("yyyy-MM-dd")</td>
+                        <td class="d-flex gap-2">
+                            @if (k.Descargado == true)
+                            {
+                                <span class="badge bg-secondary align-self-center">Ya descargado</span>
+                                <button class="btn btn-secondary btn-sm" disabled>Descargar</button>
+                            }
+                            else
+                            {
+                                <a asp-page="./PdfCarnet"
+                                   asp-route-id="@k.IdCarnet"
+                                   class="btn btn-primary btn-sm"
+                                   target="_blank">
+                                    Descargar
+                                </a>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+
+<hr class="my-4" />
+
+<h2 class="mb-3">Mis certificados</h2>
+
+@if (Model.Certificados.Count == 0)
+{
+    <p><em>No tienes certificados emitidos.</em></p>
+}
+else
+{
+    <div class="table-responsive">
+        <table class="table table-sm align-middle">
+            <thead>
+                <tr>
+                    <th>ONG</th>
+                    <th>Proyecto</th>
+                    <th>Actividad</th>
+                    <th>Emisión</th>
+                    <th style="width:180px;">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var c in Model.Certificados)
+                {
+                    <tr>
+                        <td>@c.OngNombre</td>
+                        <td>@c.ProyectoNombre</td>
+                        <td>@c.ActividadNombre</td>
+                        <td>@c.FechaEmision.ToString("yyyy-MM-dd")</td>
+                        <td class="d-flex gap-2">
+                            @if (c.Descargado == true)
+                            {
+                                <span class="badge bg-secondary align-self-center">Ya descargado</span>
+                                <button class="btn btn-secondary btn-sm" disabled>Descargar</button>
+                            }
+                            else
+                            {
+                                <a asp-page="./PdfCert"
+                                   asp-route-id="@c.IdCertificado"
+                                   class="btn btn-primary btn-sm"
+                                   target="_blank">
+                                    Descargar
+                                </a>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}

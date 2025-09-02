@@ -47,14 +47,18 @@
                         <td>@c.ActividadNombre</td>
                         <td class="text-nowrap">@c.FechaEmision.ToString("dd/MM/yyyy")</td>
                         <td class="text-end text-nowrap">
-                            
+                     
+                            <a class="btn btn-sm btn-outline-primary" asp-page="./PdfCert" asp-route-id="@c.IdCertificado" target="_blank">
+                                Descargar
+                            </a>
+
                             <form method="post"
                                   asp-page-handler="AnularCert"
                                   asp-route-id="@c.IdCertificado"
                                   class="d-inline"
                                   onsubmit="return confirm('¿Anular certificado?');">
                                 @Html.AntiForgeryToken()
-                                <button class="btn btn-sm btn-danger">Anular</button>
+                                <button class="btn btn-sm btn-danger">Eliminar</button>
                             </form>
                         </td>
                     </tr>

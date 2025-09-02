@@ -24,25 +24,25 @@ public class AdminReconocimientosCreateCModel : PageModel
             return Page();
         }
 
-        // El backend requiere CodigoVerificacion (Required) y valida usuario/ong
         var payload = new
         {
             IdUsuario = Input.IdUsuario,
             IdOng = Input.IdOng,
-            FechaEmision = Input.FechaEmision,
-            FechaVencimiento = Input.FechaVencimiento,
-            Beneficios = Input.Beneficios,
-            CodigoVerificacion = Input.CodigoVerificacion, // Guid generado en el input
-            // EstadoInscripcion: omitimos para usar default (Activo) en el backend
+            FechaEmision = Input.FechaEmision,    
+            FechaVencimiento = Input.FechaVencimiento, 
+            Beneficios = Input.Beneficios
         };
 
         var resp = await _http.PostAsJsonAsync("api/Carnets", payload);
+
         if (resp.IsSuccessStatusCode) return RedirectToPage("./Index");
 
-        ModelState.AddModelError(string.Empty, await resp.Content.ReadAsStringAsync());
+        var body = await resp.Content.ReadAsStringAsync();
+        ModelState.AddModelError(string.Empty, $"Error {(int)resp.StatusCode}: {body}");
         await CargarCombos();
         return Page();
     }
+
 
     private async Task CargarCombos()
     {

@@ -13,7 +13,6 @@ public class AdminReconocimientosIndexModel : PageModel
     public List<CertificadoVm> Certificados { get; set; } = new();
     public List<CarnetVm> Carnets { get; set; } = new();
 
-    // Diccionarios de fallback si el backend no trae relaciones
     private Dictionary<int, (string Nombre, string Apellido)> _usuarios = new();
     private Dictionary<int, string> _ongs = new();
     private Dictionary<int, (string NombreActividad, int? IdProyecto)> _actividades = new();
@@ -21,7 +20,6 @@ public class AdminReconocimientosIndexModel : PageModel
 
     public async Task OnGetAsync()
     {
-        // Si tu backend YA devuelve relaciones, puedes comentar estas 3 líneas:
         await CargarCatalogosFallback();
         await CargarCertificados();
         await CargarCarnets();
@@ -51,7 +49,6 @@ public class AdminReconocimientosIndexModel : PageModel
 
         Certificados = data.Select(c =>
         {
-            // Intento 1: usar lo que venga del backend
             var usuarioNombre = c.Usuario is null
                 ? ResolverUsuario(c.IdUsuario)
                 : $"{c.Usuario.Nombre} {c.Usuario.Apellido}";
@@ -93,7 +90,6 @@ public class AdminReconocimientosIndexModel : PageModel
                 CodigoVerificacion = k.CodigoVerificacion.ToString(),
                 FechaEmision = k.FechaEmision,
                 FechaVencimiento = k.FechaVencimiento,
-                // <- Aquí usamos Activo en vez de "EstadoInscripcion"
                 Activo = k.Activo,
                 UsuarioNombre = usuarioNombre,
                 OngNombre = ongNombre
@@ -101,7 +97,6 @@ public class AdminReconocimientosIndexModel : PageModel
         }).ToList();
     }
 
-    // ====== Catálogos (solo si el backend no trae relaciones en los GET) ======
     private async Task CargarCatalogosFallback()
     {
         // Usuarios
@@ -109,20 +104,16 @@ public class AdminReconocimientosIndexModel : PageModel
         _usuarios = usuarios.ToDictionary(
             u => u.IdUsuario, u => (u.Nombre, u.Apellido));
 
-        // ONGs
         var ongs = await _http.GetFromJsonAsync<List<OngMin>>("/api/Ongs") ?? new();
         _ongs = ongs.ToDictionary(o => o.IdOng, o => o.NombreOng);
 
-        // Actividades
         var acts = await _http.GetFromJsonAsync<List<ActividadMin>>("/api/Actividades") ?? new();
         _actividades = acts.ToDictionary(a => a.IdActividad, a => (a.NombreActividad ?? "-", (int?)a.IdProyecto));
 
-        // Proyectos
         var proys = await _http.GetFromJsonAsync<List<ProyectoMin>>("/api/Proyectos") ?? new();
         _proyectos = proys.ToDictionary(p => p.IdProyecto, p => (p.NombreProyecto ?? "-", (int?)p.IdOng));
     }
 
-    // Helpers de resolución
     private (string NombreActividad, int? IdProyecto) ResolverActividad(int id)
         => _actividades.TryGetValue(id, out var v) ? v : ("-", null);
 
@@ -153,9 +144,9 @@ public class AdminReconocimientosIndexModel : PageModel
         public int IdUsuario { get; set; }
         public int IdOng { get; set; }
         public DateTime FechaEmision { get; set; }
-        public DateTime? FechaVencimiento { get; set; }  // <- puede ser null
+        public DateTime? FechaVencimiento { get; set; }  
         public Guid CodigoVerificacion { get; set; }
-        public bool Activo { get; set; }                 // <- usual en carnets
+        public bool Activo { get; set; }             
         public UsuarioDto? Usuario { get; set; }
         public OngDto? Ong { get; set; }
     }

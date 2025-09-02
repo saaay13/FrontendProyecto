@@ -128,6 +128,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWRtaW5cUmVjb25vY2ltaWVudG9zXFBkZi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/77174/OneDrive/Escritorio/HOY/BackendProyecto/FrontendProyecto/Pages/Admin/Reconocimientos/PdfCert.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWRtaW5cUmVjb25vY2ltaWVudG9zXFBkZkNlcnQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/77174/OneDrive/Escritorio/HOY/BackendProyecto/FrontendProyecto/Pages/Admin/UsuarioRol/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWRtaW5cVXN1YXJpb1JvbFxDcmVhdGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
@@ -236,8 +240,8 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVm9sdW50YXJpb1xQYW5lbC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/77174/OneDrive/Escritorio/HOY/BackendProyecto/FrontendProyecto/Pages/Voluntario/Reconocimientos.cshtml]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVm9sdW50YXJpb1xSZWNvbm9jaW1pZW50b3MuY3NodG1s
+[C:/Users/77174/OneDrive/Escritorio/HOY/BackendProyecto/FrontendProyecto/Pages/Voluntario/Reconocimientos/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVm9sdW50YXJpb1xSZWNvbm9jaW1pZW50b3NcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/77174/OneDrive/Escritorio/HOY/BackendProyecto/FrontendProyecto/Pages/_ViewImports.cshtml]
